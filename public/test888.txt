@@ -1,0 +1,215 @@
+App\Models\User Object
+(
+    [fillable:protected] => Array
+        (
+            [0] => name
+            [1] => email
+            [2] => password
+            [3] => user_info
+            [4] => role_id
+        )
+
+    [hidden:protected] => Array
+        (
+            [0] => password
+            [1] => remember_token
+        )
+
+    [casts:protected] => Array
+        (
+            [email_verified_at] => datetime
+        )
+
+    [connection:protected] => mysql
+    [table:protected] => users
+    [primaryKey:protected] => id
+    [keyType:protected] => int
+    [incrementing] => 1
+    [with:protected] => Array
+        (
+        )
+
+    [withCount:protected] => Array
+        (
+        )
+
+    [preventsLazyLoading] => 
+    [perPage:protected] => 15
+    [exists] => 1
+    [wasRecentlyCreated] => 
+    [escapeWhenCastingToString:protected] => 
+    [attributes:protected] => Array
+        (
+            [id] => 9
+            [name] => Mickey Mouse
+            [email] => mickeymouse@gmail.com
+            [email_verified_at] => 
+            [password] => $2y$10$fsk97z2n33fDsEHhsDbrQO2ncTMt.bJ00pTzHOzlJs3GQn7u17lA6
+            [remember_token] => oo0qJpeSe14wEJywClHPJaeiG5E0Z8wKrvYlYodR5jAeoPzPzmX1v0udwm2B
+            [user_info] => {"business_category":"venue","address":"No 12, Jalan Aman","state":"penang","city":"Jelutong","postal_code":"11600","phone":"+60161234567"}
+            [role_id] => 3
+            [created_at] => 2023-09-19 17:07:27
+            [updated_at] => 2023-09-19 17:07:27
+        )
+
+    [original:protected] => Array
+        (
+            [id] => 9
+            [name] => Mickey Mouse
+            [email] => mickeymouse@gmail.com
+            [email_verified_at] => 
+            [password] => $2y$10$fsk97z2n33fDsEHhsDbrQO2ncTMt.bJ00pTzHOzlJs3GQn7u17lA6
+            [remember_token] => oo0qJpeSe14wEJywClHPJaeiG5E0Z8wKrvYlYodR5jAeoPzPzmX1v0udwm2B
+            [user_info] => {"business_category":"venue","address":"No 12, Jalan Aman","state":"penang","city":"Jelutong","postal_code":"11600","phone":"+60161234567"}
+            [role_id] => 3
+            [created_at] => 2023-09-19 17:07:27
+            [updated_at] => 2023-09-19 17:07:27
+        )
+
+    [changes:protected] => Array
+        (
+        )
+
+    [classCastCache:protected] => Array
+        (
+        )
+
+    [attributeCastCache:protected] => Array
+        (
+        )
+
+    [dates:protected] => Array
+        (
+        )
+
+    [dateFormat:protected] => 
+    [appends:protected] => Array
+        (
+        )
+
+    [dispatchesEvents:protected] => Array
+        (
+        )
+
+    [observables:protected] => Array
+        (
+        )
+
+    [relations:protected] => Array
+        (
+        )
+
+    [touches:protected] => Array
+        (
+        )
+
+    [timestamps] => 1
+    [visible:protected] => Array
+        (
+        )
+
+    [guarded:protected] => Array
+        (
+            [0] => *
+        )
+
+    [rememberTokenName:protected] => remember_token
+    [accessToken:protected] => 
+)
+
+
+hi
+
+App\Models\Role Object
+(
+    [fillable:protected] => Array
+        (
+            [0] => role_name
+        )
+
+    [connection:protected] => mysql
+    [table:protected] => roles
+    [primaryKey:protected] => id
+    [keyType:protected] => int
+    [incrementing] => 1
+    [with:protected] => Array
+        (
+        )
+
+    [withCount:protected] => Array
+        (
+        )
+
+    [preventsLazyLoading] => 
+    [perPage:protected] => 15
+    [exists] => 1
+    [wasRecentlyCreated] => 
+    [escapeWhenCastingToString:protected] => 
+    [attributes:protected] => Array
+        (
+            [id] => 3
+            [role_name] => Vendor
+        )
+
+    [original:protected] => Array
+        (
+            [id] => 3
+            [role_name] => Vendor
+        )
+
+    [changes:protected] => Array
+        (
+        )
+
+    [casts:protected] => Array
+        (
+        )
+
+    [classCastCache:protected] => Array
+        (
+        )
+
+    [attributeCastCache:protected] => Array
+        (
+        )
+
+    [dates:protected] => Array
+        (
+        )
+
+    [dateFormat:protected] => 
+    [appends:protected] => Array
+        (
+        )
+
+    [dispatchesEvents:protected] => Array
+        (
+        )
+
+    [observables:protected] => Array
+        (
+        )
+
+    [relations:protected] => Array
+        (
+        )
+
+    [touches:protected] => Array
+        (
+        )
+
+    [timestamps] => 1
+    [hidden:protected] => Array
+        (
+        )
+
+    [visible:protected] => Array
+        (
+        )
+
+    [guarded:protected] => Array
+        (
+            [0] => *
+        )
+
+)
