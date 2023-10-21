@@ -1325,11 +1325,11 @@ img {
 /*
 * Dividers
 */
-hr {
+/* hr {
 	margin-top: 0;
 	margin-bottom: 0;
 	border-top: 1px solid #e5e5e5;
-}
+} */
 
 .divider {
 	font-size: 0;
@@ -8257,30 +8257,58 @@ html:not(.ie-11):not(.ios) .parallax-disabled {
 }
 
 .vendor-card-img-cont {
-	width: 300px; 
+	position: relative;
+	width: 350px; 
 	height: 220px;
+	border-radius: 7px;
+	display: flex; 
+	justify-content: center; 
+	align-items: center;
+	background-color: black
+}
+
+.vendor-card-img-cont i {
+	position: absolute;
+	font-size: 35pt;
+	color: #C4956A;
+	font-style: normal;
+}
+
+.vendor-card-img-cont:hover {
+	cursor: pointer;
+	transform: translateY(-10px);
+	transition: .7s
 }
 
 .vendor-card-img {
 	object-fit: cover; 
-	height: 220px; 
+	width: 100%;
+	height: 100%; 
 	border-radius: 7px;
 	box-shadow: 8px 13px 35px #a17f5f4b;
+	opacity: 0.25
 }
 
 .vendor-card-title {
-	width: 300px; 
+	width: 350px; 
 	padding: 20px 10px 0px 10px;
+	cursor: pointer
+}
+
+.vendor-card-content span {
+	position: absolute;
+	margin: 4px;
+	z-index: 2;
 }
 
 .vendor-card-footer {
-	width: 300px; 
+	width: 350px; 
 	padding: 5px 10px 0px 10px;
 }
 
-.vendor-card-text {
+/* .vendor-card-text {
 	font-size: 10pt;
-}
+} */
 
 .text-justify {
 	text-align: justify;
@@ -8288,7 +8316,8 @@ html:not(.ie-11):not(.ios) .parallax-disabled {
 
 .vendor-card-placeholder {
 	position: absolute;
-	top: -45%;
+	z-index: 1;
+	top: -130%;
 	/* right: 0; */
 	text-align: right;
 	line-height: 1;

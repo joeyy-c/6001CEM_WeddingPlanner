@@ -67,7 +67,9 @@
                                 @endphp
                                 <!-- Vendor Phone No-->
                                 <a href="tel:+6{{ $vendor_info['phone'] }}">+6{{ $vendor_info['phone'] }}</a><br/>
-                                <a href="mailto:{{ $category_service->vendor->email }}"><i class="fa fa-envelope text-normal"></i> {{ $category_service->vendor->email }}</a><br/>
+
+                                <!-- Vendor Email-->
+                                <i class="fa fa-envelope text-normal"></i><a href="mailto:{{ $category_service->vendor->email }}"> {{ $category_service->vendor->email }}</a><br/>
 
                                 <!-- Vendor Address -->
                                 {{ $vendor_info['address'] }},
@@ -77,7 +79,7 @@
                               </p>
 
                               <!-- Vendor Website -->
-                              <a href="#"><i class="fa fa-link"></i> www.company_a.com</a>
+                              <i class="fa fa-link"></i><a href="#"> www.company_a.com</a>
 
                               <!-- Service Details -->
                               @if ($category == "venue" || $category == "wedding_rentals")

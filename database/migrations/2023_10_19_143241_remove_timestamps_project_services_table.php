@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('project_services', function (Blueprint $table) {
-            $table->timestamps(false);
+            $table->dropTimestamps();
         });
     }
 
