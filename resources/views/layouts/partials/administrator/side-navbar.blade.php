@@ -39,7 +39,7 @@
             <ul class="nav flex-column sub-menu">
                 <li class="nav-item"> <a class="nav-link" href="{{ route('vendors.index') }}">Vendors</a></li>
                 <li class="nav-item"> <a class="nav-link" href="{{ route('users.index') }}">Normal Users</a></li>
-                <li class="nav-item"> <a class="nav-link" href="#">Admin</a></li>
+                <!-- <li class="nav-item"> <a class="nav-link" href="#">Admin</a></li> -->
             </ul>
         </div>
     </li>

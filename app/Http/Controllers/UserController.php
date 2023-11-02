@@ -38,12 +38,37 @@ class UserController extends Controller
         return view('admin.users.index', ['users' => $users]);
     }
 
+    public function indexAdmin() {
+        $admin = Auth::user();
+        $admins = User::whereHas('role', function ($query) {
+            $query->where('role_name', 'Admin');
+        })->get();
+
+        foreach ($admins as $admin) {
+            $admin->user_info = json_decode($admin->user_info);
+        }
+
+        // return $admins;
+
+        return view('admin.admins.index', ['admins' => $admins]);
+    }
+
+    public function create() {
+        return view('admin.admins.create');
+    }
+
     public function show(string $id) {
-        $user = User::findOrFail($id);
+        $user = User::with('role')->findOrFail($id);
         $user->user_info = json_decode($user->user_info);
         
         // return $user;
-        return view('admin.users.show', ['user' => $user]);
+
+        if ($user->role->role_name == 'User') {
+            return view('admin.users.show', ['user' => $user]);
+        }
+        else {
+            return view('admin.admins.show', ['admin' => $user]);
+        }
     }
 
     public function updateVendor(User $vendor) {

@@ -37,7 +37,7 @@ class AuthenticatedSessionController extends Controller
         } elseif ($user->role->role_name == 'Vendor') {
             return redirect()->intended(RouteServiceProvider::VENDOR_DASHBOARD);
         } else {
-            return redirect('/'); // Default redirect 
+            return redirect()->intended(RouteServiceProvider::ADMIN_DASHBOARD);
         }
 
         // return redirect()->intended(RouteServiceProvider::HOME);

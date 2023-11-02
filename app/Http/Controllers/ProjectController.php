@@ -14,6 +14,7 @@ class ProjectController extends Controller
         $userId = $user->id;
 
         $project = Project::where('cust_id', $user->id)->with('projectServices.service.vendor')->first();
+        $projectDetails = [];
 
         if ($project) {
             $projectServices = $project->projectServices->map(function ($projectService) {

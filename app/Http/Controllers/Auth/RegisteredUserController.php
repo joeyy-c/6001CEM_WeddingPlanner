@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Role;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
@@ -49,12 +50,24 @@ class RegisteredUserController extends Controller
             ]
         );
 
+        // if ($request->input('admin') == true) {
+        //     $role = Role::where('Admin', $roleName)->first();
+        // }
+        // else
+        if (isset($request->user_info['business_category'])) {
+            $role = Role::where('role_name', 'Vendor')->first();
+        }
+        else {
+            $role = Role::where('role_name', 'User')->first();
+        }
+
+
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'user_info' => $request->user_info ? json_encode($request->user_info) : '{}',
-            'role_id' => isset($request->user_info['business_category']) ? 3 : 1,
+            'role_id' => $role->id,
         ]);
 
         event(new Registered($user));
@@ -68,9 +81,10 @@ class RegisteredUserController extends Controller
             return redirect()->intended(RouteServiceProvider::USER_DASHBOARD);
         } elseif ($user->role->role_name == 'Vendor') {
             return redirect()->intended(RouteServiceProvider::VENDOR_DASHBOARD);
-        } else {
-            return redirect('/'); // Default redirect 
         }
+        // else {
+        //     return redirect()->intended(RouteServiceProvider::ADMIN_DASHBOARD);
+        // }
 
         // return redirect(RouteServiceProvider::HOME);
     }

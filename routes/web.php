@@ -38,6 +38,10 @@ Route::get('/vendor/dashboard', function () {
     return view('vendor.dashboard');
 })->middleware(['auth', 'verified'])->name('vendor.dashboard');
 
+Route::get('/admin/dashboard', function () {
+    return view('admin.dashboard');
+})->middleware(['auth', 'verified'])->name('admin.dashboard');
+
 
 // Vendor - Project
 Route::get('/vendor/projects', [ProjectServiceController::class, 'index'])->name('vendor.projects.index');
@@ -72,6 +76,11 @@ Route::get('/admin/vendors/{vendor}/edit', [UserController::class, 'updateVendor
 // Users
 Route::get('/admin/users', [UserController::class, 'indexUser'])->name('users.index');
 Route::get('/admin/users/{user}', [UserController::class, 'show'])->name('users.show');
+
+// Admin
+// Route::get('/admin/admins', [UserController::class, 'indexAdmin'])->name('admins.index');
+// Route::get('/admin/admins/create', [UserController::class, 'create'])->name('admins.create');
+// Route::get('/admin/admins/{admin}', [UserController::class, 'show'])->name('admins.show');
 
 // Profile
 Route::middleware('auth')->group(function () {
