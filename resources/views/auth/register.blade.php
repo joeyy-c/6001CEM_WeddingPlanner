@@ -1,22 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>Register</title>
-
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link rel="icon" href="images/favicon.ico" type="image/x-icon">
-    <!-- <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Montserrat:300,400,500,700,800"> -->
-    <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/fonts.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-</head>
-
-<body>
-
-    @include('layouts.site-navbar')
-
+@extends('layouts.app')
+        
+@section('content')
     <section class="section novi-background bg-cover section-lg bg-gray-100">
 
         <div class="d-flex justify-content-center" >
@@ -39,6 +23,13 @@
                     <label class="form-label-2" for="email">E-mail</label>
                     <input class="form-input" id="email" type="email" name="email" value="{{ old('email') }}" required autofocus autocomplete="username">
                     <x-input-error :messages="$errors->get('email')" class="mt-2" />
+                </div>
+
+                 <!-- Phone -->
+                <div class="form-wrap mb-5">
+                    <label class="form-label-2" for="phone">Phone</label>
+                    <input class="form-input" id="phone" type="tel" name="user_info[phone]" value="{{ old('user_info.phone') }}" required autofocus autocomplete="phone">
+                    <x-input-error :messages="$errors->get('user_info.phone')" class="mt-2" />
                 </div>
 
                 <!-- Password -->
@@ -111,7 +102,4 @@
         </div>
 
     </section>
-
-    <script src="{{ asset('js/core.min.js') }}"></script>
-    <script src="{{ asset('js/script.js') }}"></script>
-</body>
+@endsection
