@@ -156,7 +156,7 @@ class WeddingPlanningController extends Controller
             ->concat($recommendation['photography_and_videography']);
 
         // return $recommendations;
-        return view('wedding_planning-recommendation_result', ['recommendations' => $recommendations, 'wedding_date' => $request->input('wedding_date')]);
+        return view('wedding_planning-recommendation_result', ['recommendations' => $recommendations, 'preferences' => $request->all()]);
  
 
         // $service_id = array(15, 17, 18, 19, 20, 21, 22, 23, 24, 25);

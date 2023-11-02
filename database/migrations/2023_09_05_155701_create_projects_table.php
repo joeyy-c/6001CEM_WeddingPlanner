@@ -16,10 +16,9 @@ return new class extends Migration
         Schema::create('projects', function (Blueprint $table) {
             $table->id();
             $table->string('project_name', 70);
-            $table->string('project_details', 500);
+            // $table->string('project_details', 500);
+            $table->json('project_details')->default('{}');
             $table->string('project_status', 50);
-            $table->date('project_start_date')->nullable();
-            $table->date('project_end_date')->nullable();
             $table->date('wedding_date')->nullable();
             $table->unsignedBigInteger('cust_id');
             $table->foreign('cust_id')->references('id')->on('users');
