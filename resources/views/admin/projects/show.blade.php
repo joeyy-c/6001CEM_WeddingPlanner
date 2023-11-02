@@ -18,9 +18,6 @@
             <div class="card-body">
                 <h4 class="card-title">Project Details</h4>
                 <form class="form-style-2">
-                    @csrf
-                    @method('patch')
-
                     <div class="row">
                         <div class="col">
                             <div class="form-group row">

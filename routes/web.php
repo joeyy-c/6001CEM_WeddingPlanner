@@ -66,8 +66,12 @@ Route::get('/admin/services/{service}/edit', [ServiceController::class, 'edit'])
 
 
 // Vendors
-Route::get('/admin/vendors', [UserController::class, 'index'])->name('vendors.index');
+Route::get('/admin/vendors', [UserController::class, 'indexVendor'])->name('vendors.index');
 Route::get('/admin/vendors/{vendor}/edit', [UserController::class, 'updateVendor'])->name('vendors.edit');
+
+// Users
+Route::get('/admin/users', [UserController::class, 'indexUser'])->name('users.index');
+Route::get('/admin/users/{user}', [UserController::class, 'show'])->name('users.show');
 
 // Profile
 Route::middleware('auth')->group(function () {

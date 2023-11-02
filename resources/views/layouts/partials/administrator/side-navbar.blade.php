@@ -30,28 +30,16 @@
         </a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="{{ route('vendors.index') }}">
-            <i class="icon-grid menu-icon"></i>
-            <span class="menu-title">Vendors</span>
-        </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="#">
-            <i class="icon-grid menu-icon"></i>
-            <span class="menu-title">Users</span>
-        </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+        <a class="nav-link" data-toggle="collapse" href="#users" aria-expanded="false" aria-controls="users">
             <i class="icon-layout menu-icon"></i>
-            <span class="menu-title">UI Elements</span>
+            <span class="menu-title">Users</span>
             <i class="menu-arrow"></i>
         </a>
-        <div class="collapse" id="ui-basic">
+        <div class="collapse" id="users">
             <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="pages/ui-features/buttons.html">Buttons</a></li>
-                <li class="nav-item"> <a class="nav-link" href="pages/ui-features/dropdowns.html">Dropdowns</a></li>
-                <li class="nav-item"> <a class="nav-link" href="pages/ui-features/typography.html">Typography</a></li>
+                <li class="nav-item"> <a class="nav-link" href="{{ route('vendors.index') }}">Vendors</a></li>
+                <li class="nav-item"> <a class="nav-link" href="{{ route('users.index') }}">Normal Users</a></li>
+                <li class="nav-item"> <a class="nav-link" href="#">Admin</a></li>
             </ul>
         </div>
     </li>

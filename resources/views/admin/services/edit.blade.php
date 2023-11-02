@@ -7,9 +7,6 @@
       <div class="card-body">
         <h4 class="card-title">Service Details</h4>
         <form class="form-style-2">
-          @csrf
-          @method('patch')
-
           <div id="general_field">
             <div class="row">
               <div class="col-md-6">
