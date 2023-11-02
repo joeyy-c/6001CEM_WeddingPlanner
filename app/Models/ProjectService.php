@@ -12,7 +12,9 @@ class ProjectService extends Model
     protected $fillable = [
         'project_id',
         'service_id',
-        'status'
+        'status',
+        'start_date',
+        'end_date',
     ];
     public $timestamps = false;
 

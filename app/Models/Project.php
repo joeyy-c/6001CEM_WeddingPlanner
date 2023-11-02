@@ -14,8 +14,6 @@ class Project extends Model
         'project_details',
         'project_remark',
         'project_status',
-        'project_start_date',
-        'project_end_date',
         'wedding_date',
         'cust_id'
     ];
@@ -24,5 +22,10 @@ class Project extends Model
     public function cust()
     {
         return $this->belongsTo(User::class, 'cust_id', 'id');
+    }
+
+    public function projectServices()
+    {
+        return $this->hasMany(ProjectService::class, 'project_id', 'id');
     }
 }
