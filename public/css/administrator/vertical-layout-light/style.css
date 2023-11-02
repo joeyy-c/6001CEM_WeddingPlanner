@@ -30592,4 +30592,6 @@ div.tagsinput span.tag a {
   }
 }
 
-/*# sourceMappingURL=../maps/vertical-layout-light/style.css.map */
+.form-group a {
+  color: #007bff;
+}
