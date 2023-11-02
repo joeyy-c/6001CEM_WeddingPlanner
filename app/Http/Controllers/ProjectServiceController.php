@@ -13,18 +13,33 @@ class ProjectServiceController extends Controller
         $user = Auth::user();
         $userId = $user->id;
 
-        $project = Project::where('cust_id', $user->id);
+        $projects = ProjectService::whereHas('service', function ($query) use ($userId) {
+            $query->where('vendor_id', $userId);
+        })->with('service', 'project', 'project.cust')->get();
 
-        $project_services = ProjectService::whereHas('project', function ($query) use ($userId) {
-            $query->where('cust_id', $userId);
-        })->with('service.vendor')->get();
+        // return $projects;
 
-        foreach ($project_services as $ps) {
-            $ps->service->vendor->user_info = json_decode($ps->service->vendor->user_info);
+        return view('vendor.projects.index', ['projects' => $projects]);
+    }
+
+    public function edit(ProjectService $project_service) {
+        $project_service->load('service', 'project', 'project.cust');
+        $project_service->project->cust->user_info = json_decode( $project_service->project->cust->user_info);
+
+        // return $project_service;
+
+        return view('vendor.projects.edit', ['project' => $project_service]);
+    }
+
+    public function update(ProjectService $project_service, Request $request) {
+        $result = $project_service->update([
+            'status' => $request->input('status')
+        ]);
+
+        if ($result) {
+            return redirect()->route('vendor.projects.index')->with('success', 'Project has been successfully updated.');
+        } else {
+            return redirect()->route('vendor.projects.index')->with('error', 'Failed to update project.');
         }
-
-        // return $project_services;
-
-        return view('dashboard', ['project_services' => $project_services]);
     }
 }

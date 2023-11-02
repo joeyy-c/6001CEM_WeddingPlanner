@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\WeddingPlanningController;
@@ -31,21 +32,44 @@ Route::get('/welcome', function () {
 //     return view('dashboard');
 // })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/dashboard', [ProjectServiceController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [ProjectController::class, 'userDashboard'])->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/vendor/dashboard', function () {
     return view('vendor.dashboard');
 })->middleware(['auth', 'verified'])->name('vendor.dashboard');
 
-// Route::get('/vendor/services/add', function () {
-//     return view('vendor.services.add');
-// })->middleware(['auth', 'verified'])->name('vendor.services.add');
 
-Route::get('/vendor/services', [ServiceController::class, 'index'])->name('services.index');
-Route::get('/vendor/services/create', [ServiceController::class, 'create'])->name('services.create');
-Route::post('/vendor/services', [ServiceController::class, 'store'])->name('services.store');
-// Route::post('/vendor/services/create', [ServiceController::class, 'store'])->name('services.store');
+// Vendor - Project
+Route::get('/vendor/projects', [ProjectServiceController::class, 'index'])->name('vendor.projects.index');
+Route::get('/vendor/projects/{project_service}/edit', [ProjectServiceController::class, 'edit'])->name('vendor.projects.edit');
+Route::patch('/vendor/project/{project}', [ProjectServiceController::class, 'update'])->name('vendor.projects.update'); 
 
+// Admin - Project
+Route::get('/admin/projects', [ProjectController::class, 'index'])->name('admin.projects.index');
+// Route::get('/admin/project/{project}/edit', [ProjectServiceController::class, 'edit'])->name('admin.projects.edit');
+Route::get('/admin/projects/{project}', [ProjectController::class, 'show'])->name('admin.projects.show');
+Route::patch('/admin/project/{project}', [ProjectServiceController::class, 'update'])->name('admin.projects.update'); 
+
+
+// Vendor - Services
+Route::get('/vendor/services', [ServiceController::class, 'index'])->name('vendor.services.index');
+Route::get('/vendor/services/create', [ServiceController::class, 'create'])->name('vendor.services.create');
+Route::post('/vendor/services', [ServiceController::class, 'store'])->name('vendor.services.store');
+// Route::get('/vendor/services/{service}', [ServiceController::class, 'show'])->name('vendor.services.show');
+Route::post('/vendor/services/disableService', [ServiceController::class, 'disableService'])->name('vendor.services.disableService'); // update multiple record in service listing
+Route::get('/vendor/services/{service}/edit', [ServiceController::class, 'edit'])->name('vendor.services.edit');
+Route::patch('/vendor/services/{service}', [ServiceController::class, 'update'])->name('vendor.services.update'); 
+
+// Admin - Services
+Route::get('/admin/services', [ServiceController::class, 'index'])->name('admin.services.index');
+Route::get('/admin/services/{service}/edit', [ServiceController::class, 'edit'])->name('admin.services.edit');
+
+
+// Vendors
+Route::get('/admin/vendors', [UserController::class, 'index'])->name('vendors.index');
+Route::get('/admin/vendors/{vendor}/edit', [UserController::class, 'updateVendor'])->name('vendors.edit');
+
+// Profile
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -60,6 +84,7 @@ Route::get('/contact-us', function () {
 })->name('contact-us');
 
 
+// Wedding Planning (Site)
 // Route::get('/wedding-planning', function () {
 //     return view('wedding_planning');
 // })->name('wedding-planning');
@@ -74,6 +99,10 @@ Route::post('/projects', [ProjectController::class, 'store'])->middleware(['auth
 //     return view('recommendation_result');
 // })->name('recommendation-result');
 
-// Route::get('/test', function() {
-//     return view('auth.login');
-// });
+Route::get('/test', function() {
+    return view('test');
+});
+
+Route::get('/test2', function() {
+    return view('test2');
+});
