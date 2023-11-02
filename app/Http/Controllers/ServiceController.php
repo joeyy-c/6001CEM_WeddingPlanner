@@ -11,9 +11,19 @@ class ServiceController extends Controller
 {
     public function index() {
         $user = Auth::user();
-        $services = Service::where('vendor_id', $user->id)->get();
 
-        return view('vendor.services.index', ['services' => $services]);
+        if ($user->role->role_name == 'Vendor') {
+            $services = Service::where('vendor_id', $user->id)->get();
+
+            return view('vendor.services.index', ['services' => $services]);
+        }
+        else if ($user->role->role_name == 'Admin') {
+            $services = Service::with('vendor')->get();
+
+            // return $services;
+            return view('admin.services.index', ['services' => $services]);
+        }
+
     }
 
     public function create() {
@@ -57,6 +67,57 @@ class ServiceController extends Controller
         ]);
 
         // return redirect(route('service.create'));
-        return redirect()->route('services.index')->with('message', 'Service has been successfully added.');
+        return redirect()->route('vendor.services.index')->with('success', 'Service #' . $service->id . ' has been successfully added.');
+    }
+
+    // public function show(string $id) {
+    //     $service = Service::with('vendor')->findOrFail($id);
+    //     $service->vendor->user_info = json_decode($service->vendor->user_info, true);
+        
+    //     return $service;
+    //     // return view('vendor.services.show', ['service' => Service::findOrFail($id)]);
+    // }
+
+    public function disableService(Request $request) {
+        if (empty($request->input('disable'))) {
+            return redirect()->route('vendor.services.index')->with('warning', 'Please select at least one checkbox.');
+        }
+        else {
+            Service::whereIn('id', $request->input('disable'))
+            ->update(['service_enable' => $request->input('service_enable')]);
+
+            if ($request->input('service_enable')) 
+                return redirect()->route('vendor.services.index')->with('success', 'Services has been disabled successfully.');
+            else 
+                return redirect()->route('vendor.services.index')->with('success', 'Services has been disabled successfully.');
+        }
+    }
+
+    public function edit(Service $service) {
+        $user = Auth::user();
+
+        $service->load('vendor');
+        $service->vendor->user_info = json_decode($service->vendor->user_info);
+        
+        // return $service;
+
+        if ($user->role->role_name == 'Vendor') {
+            return view('vendor.services.edit', ['service' => $service]);
+        }
+        else if ($user->role->role_name == 'Admin') {
+            return view('admin.services.edit', ['service' => $service]);
+        }
+    }
+
+    public function update(Service $service, Request $request) {
+        $result = $service->update([
+            'service_enable' => $request->input('service_enable')
+        ]);
+
+        if ($result) {
+            return redirect()->route('vendor.services.index')->with('success', 'Service #' . $service->id . ' has been successfully updated.');
+        } else {
+            return redirect()->route('vendor.services.index')->with('error', 'Failed to update service #' . $service->id . '.');
+        }
     }
 }
