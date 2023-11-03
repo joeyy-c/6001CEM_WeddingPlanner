@@ -46,7 +46,7 @@ Route::get('/admin/dashboard', function () {
 // Vendor - Project
 Route::get('/vendor/projects', [ProjectServiceController::class, 'index'])->name('vendor.projects.index');
 Route::get('/vendor/projects/{project_service}/edit', [ProjectServiceController::class, 'edit'])->name('vendor.projects.edit');
-Route::patch('/vendor/project/{project}', [ProjectServiceController::class, 'update'])->name('vendor.projects.update'); 
+Route::patch('/vendor/project/{project_service}', [ProjectServiceController::class, 'update'])->name('vendor.projects.update'); 
 
 // Admin - Project
 Route::get('/admin/projects', [ProjectController::class, 'index'])->name('admin.projects.index');

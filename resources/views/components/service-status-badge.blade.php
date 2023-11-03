@@ -3,6 +3,8 @@
 @php
     $badge_color = array(
         'Waiting for Vendor\'s Confirmation' => 'warning',
+        'Vendor Confirmed' => 'success',
+        'Vendor Declined' => 'danger',
         'Waiting for Deposit Payment' => 'warning',
         'Project Confirmed' => 'success',
         'Planning' => 'warning',

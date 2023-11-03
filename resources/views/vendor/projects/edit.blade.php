@@ -17,7 +17,7 @@
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title">Project Details</h4>
-                <form class="form-style-2" action="{{ route('vendor.projects.update', ['project' => $project]) }}" method="post">
+                <form class="form-style-2" action="{{ route('vendor.projects.update', ['project_service' => $project]) }}" method="post">
                     @csrf
                     @method('patch')
 
@@ -106,26 +106,45 @@
                         <div class="col">
                             <div class="form-group row">
                                 <label class="col-sm-3 col-form-label">Status</label>
-                                <div class="col-sm-9">
-                                    <select name="status" class="form-control">
-                                        @php 
-                                            $status = array(
-                                                'Waiting for Vendor\'s Confirmation',
-                                                'Waiting for Deposit Payment',
-                                                'Project Confirmed',
-                                                'Planning',
-                                                'Preparation and Setup',
-                                                'Completed',
-                                                'Cancelled'
-                                            );
-                                        @endphp 
+                                <div class="col-sm-9 d-flex align-items-center">
+                                    @if ($project->status == 'Waiting for Vendor\'s Confirmation')
+                                        <p>{{ $project->status }}</p> 
+                                        <button type="submit" class="btn btn-success btn-icon-text btn-sm" name="status" value="Vendor Confirmed">
+                                            <i class="ti-check btn-icon-prepend"></i>
+                                            Confirm
+                                        </button>
+                                        <button type="submit" class="btn btn-danger btn-icon-text btn-sm" name="status" value="Vendor Declined">
+                                            <i class="ti-close btn-icon-prepend"></i>
+                                            Decline
+                                        </button>
+                                    @else
+                                        @if ($project->status == 'Vendor Declined' || $project->status == 'Completed' || $project->status == 'Cancelled')
+                                            <x-service-status-badge :status="$project->status"/>
+                                        @else
+                                        <select name="status" class="form-control">
+                                            @php 
+                                                $status = array(
+                                                    'Vendor Confirmed',
+                                                    'Waiting for Deposit Payment',
+                                                    'Project Confirmed',
+                                                    'Planning',
+                                                    'Preparation and Setup',
+                                                    'Completed',
+                                                    'Cancelled'
+                                                );
 
-                                        @foreach ($status as $s)
-                                            <option value="{{ $s }}" {{ $project->status === $s ? 'selected' : '' }}>
-                                                {{ $s }}
-                                            </option>
-                                        @endforeach
-                                    </select>
+                                                $startIndex = array_search($project->status, $status);
+                                                $status = array_slice($status, $startIndex);
+                                            @endphp 
+
+                                            @foreach ($status as $s)
+                                                <option value="{{ $s }}" {{ $project->status == $s ? 'selected' : '' }}>
+                                                    {{ $s }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        @endif
+                                    @endif
                                 </div>
                             </div>
                         </div>
