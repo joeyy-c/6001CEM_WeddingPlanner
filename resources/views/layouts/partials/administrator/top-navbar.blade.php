@@ -17,7 +17,7 @@
             </button>
             <div class="dropdown-menu navbar-dropdown" aria-labelledby="dropdownMenuButton1">
                 <!-- <h6 class="dropdown-header">Settings</h6> -->
-                <a class="dropdown-item" href="{{ route('profile.edit') }}"><i class="ti-user text-primary"></i>Profile</a>
+                <a class="dropdown-item" href="{{ route('vendorProfile.edit') }}"><i class="ti-user text-primary"></i>Profile</a>
                 <!-- <a class="dropdown-item" href="#">Another action</a>
                 <a class="dropdown-item" href="#">Something else here</a>
                 <div class="dropdown-divider"></div> -->

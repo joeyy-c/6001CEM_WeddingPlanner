@@ -7,7 +7,7 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+        <title>{{ config('app.name', 'De Lavish') }}</title>
 
         <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
         <!-- <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Montserrat:300,400,500,700,800"> -->
@@ -31,6 +31,7 @@
 
         <script src="{{ asset('js/core.min.js') }}"></script>
         <script src="{{ asset('js/script.js') }}"></script>
+        <script src="https://unpkg.com/@popperjs/core@2"></script>
         <script src="{{ asset('js/bootstrap.js') }}"></script>
 
         @stack('scripts')

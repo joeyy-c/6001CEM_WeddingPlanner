@@ -84,7 +84,8 @@ Route::get('/admin/users/{user}', [UserController::class, 'show'])->name('users.
 
 // Profile
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('userProfile.edit');
+    Route::get('/vendor/profile', [ProfileController::class, 'edit'])->name('vendorProfile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
