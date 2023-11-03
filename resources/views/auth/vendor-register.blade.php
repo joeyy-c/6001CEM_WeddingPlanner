@@ -127,19 +127,6 @@
                                 @foreach ($states as $value => $label)
                                     <option value="{{ $value }}" {{ old('user_info.state') === $value ? 'selected' : '' }}>{{ $label }}</option>
                                 @endforeach
-                                <!-- <option value="johor">Johor</option>
-                                <option value="kedah">Kedah</option>
-                                <option value="kelantan">Kelantan</option>
-                                <option value="malacca">Malacca</option>
-                                <option value="negeri_sembilan">Negeri Sembilan</option>
-                                <option value="pahang">Pahang</option>
-                                <option value="penang">Penang</option>
-                                <option value="perak">Perak</option>
-                                <option value="perlis">Perlis</option>
-                                <option value="sabah">Sabah</option>
-                                <option value="sarawak">Sarawak</option>
-                                <option value="selangor">Selangor</option>
-                                <option value="terengganu">Terengganu</option> -->
                             </select>
                         </div>
 
