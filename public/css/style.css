@@ -3072,7 +3072,7 @@ textarea.form-input {
 */
 .team-classic {
 	text-align: left;
-	max-width: 290px;
+	/* max-width: 290px; */
 	margin-left: auto;
 	margin-right: auto;
 }

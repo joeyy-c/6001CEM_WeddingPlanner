@@ -30,10 +30,18 @@
                 </div>
               </div>
 
-              @foreach ($preferences as $key => $value) 
+              @foreach ($form_data as $key => $value) 
                 @if ($key != '_token')
                   <input type="hidden" name="{{ $key }}" value="{{ $value }}"/>
                 @endif
+              @endforeach
+
+              @php
+                $business_category = array("venue", "wedding_rentals", "catering", "stylist", "photography_and_videography");
+              @endphp
+
+              @foreach ($business_category as $category) 
+                <input type="hidden" name="{{ $category }}" value="true"/>
               @endforeach
   
               <div class="row form-button">
