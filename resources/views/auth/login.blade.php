@@ -6,13 +6,17 @@
     <div class="d-flex justify-content-center ">
         <div class="col-4 border-primary p-5 wow blurIn" style="visibility: visible; animation-name: blurIn;">
 
-            <!-- Session Status -->
-            <x-auth-session-status class="mb-4" :status="session('status')" />
-
             <h4>Hello, welcome back!</h4>
 
             <form class="form-style-2 mt-5" method="POST" action="{{ route('login') }}">
                 @csrf
+
+                <!-- Session Status -->
+                @if (session('status'))
+                    <div class="alert alert-success">
+                        {{ session('status') }}
+                    </div>
+                @endif
 
                 <!-- E-mail -->
                 <div class="form-wrap mb-5">
