@@ -1,11 +1,15 @@
-$status = array(
-                                                    'Waiting for Vendor\'s Confirmation',
-                                                    'Vendor Confirmed',
-                                                    'Vendor Declined',
-                                                    'Waiting for Deposit Payment',
-                                                    'Project Confirmed',
-                                                    'Planning',
-                                                    'Preparation and Setup',
-                                                    'Completed',
-                                                    'Cancelled'
-                                                );
+Array
+(
+    [0] => stdClass Object
+        (
+            [sales] => 17020.10
+            [month] => 10
+        )
+
+    [1] => stdClass Object
+        (
+            [sales] => 8100.00
+            [month] => 11
+        )
+
+)

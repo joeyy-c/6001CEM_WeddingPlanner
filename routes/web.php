@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\WeddingPlanningController;
 use App\Http\Controllers\ProjectServiceController;
+use App\Http\Controllers\DashboardController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -32,15 +34,11 @@ Route::get('/welcome', function () {
 //     return view('dashboard');
 // })->middleware(['auth', 'verified'])->name('dashboard');
 
+
+// Dashboard
 Route::get('/dashboard', [ProjectController::class, 'userDashboard'])->middleware(['auth', 'verified'])->name('dashboard');
-
-Route::get('/vendor/dashboard', function () {
-    return view('vendor.dashboard');
-})->middleware(['auth', 'verified'])->name('vendor.dashboard');
-
-Route::get('/admin/dashboard', function () {
-    return view('admin.dashboard');
-})->middleware(['auth', 'verified'])->name('admin.dashboard');
+Route::get('/vendor/dashboard', [DashboardController::class, 'vendorDashboard'])->middleware(['auth', 'verified'])->name('vendor.dashboard');
+Route::get('/admin/dashboard', [DashboardController::class, 'adminDashboard'])->middleware(['auth', 'verified'])->name('admin.dashboard');
 
 
 // Vendor - Project
