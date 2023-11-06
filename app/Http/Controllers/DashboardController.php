@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\ProjectService;
 use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
@@ -40,8 +41,15 @@ class DashboardController extends Controller
         $line_chart_data = array_values($line_chart_data); // remove the key of array
 
         $donut_chart_data = $this->getDonutChartData();
+        $top_services_sales = $this->getTopServicesSales();
+        $latest_projects = $this->getLatestProjects();
 
-        return view('vendor.dashboard', ['line_chart_data' => $line_chart_data, 'total_sales' => $total_sales, 'donut_chart_data' => $donut_chart_data]);
+        return view('vendor.dashboard', [
+            'line_chart_data' => $line_chart_data, 
+            'total_sales' => number_format($total_sales, 2), 
+            'donut_chart_data' => $donut_chart_data,
+            'top_services_sales' => $top_services_sales
+        ]);
     }
 
     public function adminDashboard() {
@@ -69,19 +77,26 @@ class DashboardController extends Controller
         $currentYear = date('Y'); 
 
         // Select the top 7 services sold
-        $top3Services = DB::table('project_services')
+        $topServicesSales = DB::table('project_services')
+                        ->join('projects', 'project_services.project_id', '=', 'projects.id')
                         ->join('services', 'project_services.service_id', '=', 'services.id')
-                        ->select('service_name', DB::raw('SUM(service_price) as total_service_sales'))
+                        ->join('users', 'services.vendor_id', '=', 'users.id')
+                        ->select('service_name', 
+                            DB::raw('SUM(CASE 
+                                WHEN JSON_VALUE(users.user_info,"$.business_category") = "catering" THEN services.service_price * (JSON_VALUE(projects.project_details,"$.guest_count") / 10)
+                                WHEN JSON_VALUE(users.user_info,"$.business_category") = "stylist" THEN services.service_price * JSON_VALUE(projects.project_details,"$.num_of_pax_requiring_stylist")
+                                ELSE services.service_price
+                            END) as sales')
+                        )
                         ->where('vendor_id', auth()->id())
                         ->whereNotIn('project_services.status', ['Declined', 'Cancelled', 'Waiting for Vendor\'s Confirmation', 'Deposit Payment'])
                         ->whereYear('project_services.start_date', $currentYear)
                         ->groupBy('service_name')
-                        ->orderByDesc('service_count')
+                        ->orderByDesc('sales')
                         ->take(7)
                         ->get();
 
-        
-
+        return $topServicesSales;
     }
 
     private function getDonutChartData() {

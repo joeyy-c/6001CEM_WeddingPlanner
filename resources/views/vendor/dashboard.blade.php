@@ -6,20 +6,12 @@
       <div class="row">
         <div class="col-12 col-xl-8 mb-4 mb-xl-0">
           <h3 class="font-weight-bold">Welcome <span class="text-primary">{{ auth()->user()->name }}</span></h3>
-          <h6 class="font-weight-normal mb-0">Always monitor and keep track of sales reports, project progress, and service-related statistics here.</span></h6>
+          <p class="font-weight-normal mb-0">Always monitor and keep track of sales reports, project progress, and service-related statistics here. <br/>Only projects that have received a deposit payment and have not been declined or cancelled by the vendor will be included in the calculation.</p>
         </div>
         <div class="col-12 col-xl-4">
           <div class="justify-content-end d-flex">
           <div class="dropdown flex-md-grow-1 flex-xl-grow-0">
-            <button class="btn btn-sm btn-light bg-white dropdown-toggle" type="button" id="dropdownMenuDate2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-              <i class="mdi mdi-calendar"></i> Today (10 Jan 2021)
-            </button>
-            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuDate2">
-              <a class="dropdown-item" href="#">January - March</a>
-              <a class="dropdown-item" href="#">March - June</a>
-              <a class="dropdown-item" href="#">June - August</a>
-              <a class="dropdown-item" href="#">August - November</a>
-            </div>
+            <button type="button" class="btn btn-outline-primary" disabled>Year {{ date("Y") }}</button>
           </div>
           </div>
         </div>
@@ -32,7 +24,7 @@
     <div class="col-md-8 grid-margin stretch-card">
       <div class="card">
         <div class="card-body">
-          <p class="card-title">Oct 2023</p>
+          <p class="card-title">Sales Report</p>
           <canvas id="sales-chart"></canvas>
         </div>
       </div>
@@ -42,7 +34,7 @@
         <div class="col-md-6 mb-4 stretch-card transparent">
           <div class="card card-tale">
             <div class="card-body">
-              <p class="mb-4">Total Sales</p>
+              <p class="mb-4">Total Sales (RM)</p>
               <p class="fs-30 mb-2">{{ $total_sales }}</p>
               <p>10.00% (30 days)</p>
             </div>
@@ -90,8 +82,14 @@
             <div class="col-md-12 col-xl-3 d-flex flex-column justify-content-start">
               <div class="ml-xl-4 mt-3">
               <p class="card-title">Detailed Reports</p>
-                <h1 class="text-primary my-3">RM 34,040</h1>
-                <p class="mb-xl-0">The total number of sessions within the date range. It is the period time a user is actively engaged with your website, page or app, etc</p>
+                @php
+                  $top_services_total_sales = 0;
+                  foreach ($top_services_sales as $service) {
+                      $top_services_total_sales += $service->sales;
+                  }
+                @endphp
+                <h2 class="text-primary my-3">RM {{ number_format($top_services_total_sales, 2) }}</h2>
+                <p class="mb-xl-0">The total sales for current year based on different type of services sold.</p>
               </div>  
               </div>
             <div class="col-md-12 col-xl-9">
@@ -99,66 +97,23 @@
                 <div class="col-md-6 border-right">
                   <div class="table-responsive mb-3 mb-md-0 mt-3">
                     <table class="table table-borderless report-table">
-                      <tr>
-                        <td class="text-muted">Service A</td>
-                        <td class="w-100 px-0">
-                          <div class="progress progress-md mx-4">
-                            <div class="progress-bar bg-primary" role="progressbar" style="width: 70%" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
-                          </div>
-                        </td>
-                        <td><h5 class="font-weight-bold mb-0">RM 713</h5></td>
-                      </tr>
-                      <tr>
-                        <td class="text-muted">Service B</td>
-                        <td class="w-100 px-0">
-                          <div class="progress progress-md mx-4">
-                            <div class="progress-bar bg-warning" role="progressbar" style="width: 30%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
-                          </div>
-                        </td>
-                        <td><h5 class="font-weight-bold mb-0">RM 583</h5></td>
-                      </tr>
-                      <tr>
-                        <td class="text-muted">Service C</td>
-                        <td class="w-100 px-0">
-                          <div class="progress progress-md mx-4">
-                            <div class="progress-bar bg-danger" role="progressbar" style="width: 95%" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100"></div>
-                          </div>
-                        </td>
-                        <td><h5 class="font-weight-bold mb-0">RM 924</h5></td>
-                      </tr>
-                      <tr>
-                        <td class="text-muted">Service D</td>
-                        <td class="w-100 px-0">
-                          <div class="progress progress-md mx-4">
-                            <div class="progress-bar bg-info" role="progressbar" style="width: 60%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
-                          </div>
-                        </td>
-                        <td><h5 class="font-weight-bold mb-0">RM 664</h5></td>
-                      </tr>
-                      <tr>
-                        <td class="text-muted">Service E</td>
-                        <td class="w-100 px-0">
-                          <div class="progress progress-md mx-4">
-                            <div class="progress-bar bg-primary" role="progressbar" style="width: 40%" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
-                          </div>
-                        </td>
-                        <td><h5 class="font-weight-bold mb-0">RM 560</h5></td>
-                      </tr>
-                      <tr>
-                        <td class="text-muted">Service F</td>
-                        <td class="w-100 px-0">
-                          <div class="progress progress-md mx-4">
-                            <div class="progress-bar bg-danger" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                          </div>
-                        </td>
-                        <td><h5 class="font-weight-bold mb-0">RM 793</h5></td>
-                      </tr>
+                      @foreach ($top_services_sales as $service)
+                        <tr>
+                          <td class="text-muted">{{ $service->service_name }}</td>
+                          <td class="w-100 px-0">
+                            <div class="progress progress-md mx-4">
+                              <div class="progress-bar bg-primary" role="progressbar" style="width: {{ ($service->sales / $top_services_total_sales) * 100 }}%" aria-valuenow="{{ ($service->sales / $top_services_total_sales) * 100 }}" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                          </td>
+                          <td><h5 class="font-weight-bold mb-0">RM {{ number_format($service->sales, 2) }}</h5></td>
+                        </tr>
+                      @endforeach
                     </table>
                   </div>
                 </div>
                 <div class="col-md-6 mt-3">
-                  <canvas id="north-america-chart"></canvas>
-                  <div id="north-america-legend"></div>
+                  <canvas id="donut-chart"></canvas>
+                  <div id="donut-chart-legend"></div>
                 </div>
               </div>
             </div>

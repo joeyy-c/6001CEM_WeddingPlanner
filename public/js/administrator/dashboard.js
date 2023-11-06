@@ -15,18 +15,18 @@
             pointBackgroundColor: '#4747A1',
             borderWidth: 2,
             fill: false,
-            label: "Orders"
+            label: "Sales (RM)"
           },
-          {
-            data: [400, 450, 410, 500, 480, 600, 450, 550, 460, "560", "450", "700"],
-            borderColor: [
-              '#F09397'
-            ],
-            pointBackgroundColor: '#F09397',
-            borderWidth: 2,
-            fill: false,
-            label: "Downloads"
-          }
+          // {
+          //   data: [400, 450, 410, 500, 480, 600, 450, 550, 460, "560", "450", "700"],
+          //   borderColor: [
+          //     '#F09397'
+          //   ],
+          //   pointBackgroundColor: '#F09397',
+          //   borderWidth: 2,
+          //   fill: false,
+          //   label: "Downloads"
+          // }
         ]
       };
 
@@ -94,7 +94,7 @@
         options: areaOptions
       });
     }
-    if ($("#north-america-chart").length) {
+    if ($("#donut-chart").length) {
       var areaData = {
         labels: donut_chart_data.labels,
         datasets: [{
@@ -138,7 +138,7 @@
           return text.join("");
         },
       }
-      var northAmericaChartPlugins = {
+      var donutChartPlugins = {
         beforeDraw: function(chart) {
           var width = chart.chart.width,
               height = chart.chart.height,
@@ -158,14 +158,14 @@
           ctx.save();
         }
       }
-      var northAmericaChartCanvas = $("#north-america-chart").get(0).getContext("2d");
-      var northAmericaChart = new Chart(northAmericaChartCanvas, {
+      var donutChartCanvas = $("#donut-chart").get(0).getContext("2d");
+      var donutChart = new Chart(donutChartCanvas, {
         type: 'doughnut',
         data: areaData,
         options: areaOptions,
-        plugins: northAmericaChartPlugins
+        plugins: donutChartPlugins
       });
-      document.getElementById('north-america-legend').innerHTML = northAmericaChart.generateLegend();
+      document.getElementById('donut-chart-legend').innerHTML = donutChart.generateLegend();
     }
 
     function format ( d ) {
