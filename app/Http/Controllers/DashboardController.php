@@ -10,6 +10,26 @@ class DashboardController extends Controller
 {
     public function vendorDashboard() {
 
+        $line_chart_data_and_total_sales = $this->getLineChartData();
+        $donut_chart_data = $this->getDonutChartData();
+        $top_services_sales = $this->getTopServicesSales();
+        $latest_projects = $this->getLatestProjects();
+
+        return view('vendor.dashboard', [
+            'line_chart_data' => $line_chart_data_and_total_sales['line_chart_data'], 
+            'total_sales' => $line_chart_data_and_total_sales['total_sales'],
+            'donut_chart_data' => $donut_chart_data,
+            'top_services_sales' => $top_services_sales,
+            'latest_projects' => $latest_projects 
+        ]);
+    }
+
+    public function adminDashboard() {
+
+        return view('admin.dashboard', []);
+    }
+
+    public function getLineChartData() {
         // Select the total sales of vendor for current year, group by month
         $currentYear = date('Y'); 
         $chart_result = DB::table('project_services')
@@ -40,25 +60,7 @@ class DashboardController extends Controller
         $total_sales = array_sum($line_chart_data); // total sales of current year
         $line_chart_data = array_values($line_chart_data); // remove the key of array
 
-        $donut_chart_data = $this->getDonutChartData();
-        $top_services_sales = $this->getTopServicesSales();
-        $latest_projects = $this->getLatestProjects();
-
-        return view('vendor.dashboard', [
-            'line_chart_data' => $line_chart_data, 
-            'total_sales' => number_format($total_sales, 2), 
-            'donut_chart_data' => $donut_chart_data,
-            'top_services_sales' => $top_services_sales
-        ]);
-    }
-
-    public function adminDashboard() {
-
-        return view('admin.dashboard', []);
-    }
-
-    private function getTotalSales() {
-
+        return array('line_chart_data' => $line_chart_data, 'total_sales' => number_format($total_sales, 2));
     }
 
     private function getTotalIncomingProject() {
@@ -159,6 +161,12 @@ class DashboardController extends Controller
     }
 
     private function getLatestProjects() {
+        $userId = auth()->id();
 
+        $projects = ProjectService::whereHas('service', function ($query) use ($userId) {
+            $query->where('vendor_id', $userId);
+        })->with('service', 'project', 'project.cust')->take(10)->get();
+
+        return $projects;
     }
 }

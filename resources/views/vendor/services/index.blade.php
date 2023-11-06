@@ -84,7 +84,7 @@
                 @foreach ($services as $service)
                 <tr>
                   <td><input type="checkbox" name="disable[]" value="{{ $service->id }}"></td>
-                  <td><a href="{{ route('vendor.services.edit', ['service' => $service]) }}">{{ $service->id }}</a></td>
+                  <td><a href="{{ route('vendor.services.edit', ['service' => $service]) }}" target="_blank">{{ $service->id }}</a></td>
                   <td>
                     <span class="badge {{ ($service->service_enable == 1) ? 'bg-success' : 'bg-secondary' }} text-light">
                       {{ ($service->service_enable == 1) ? 'Enabled' : 'Disabled' }}

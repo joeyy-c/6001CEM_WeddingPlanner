@@ -46,7 +46,7 @@
                     <td><a href="{{ route('vendor.projects.edit', ['project_service' => $project]) }}">{{ $project->id }}</a></td>
                     <td>{{ $project->project->project_name }}</td>
                     <td>{{ $project->project->cust->name }}</td>
-                    <td>{{ $project->service->service_name }}</td>
+                    <td><a href="{{ route('vendor.services.edit', ['service' => $project->service]) }}" target="_blank">{{ $project->service->service_name }}</a></td>
                     <td>{{ $project->project->project_remark }}</td>
                     <td>{{ empty($project->start_date) ? '-' : date('d M Y', strtotime($project->start_date)) }}</td>
                     <td>{{ empty($project->end_date) ? '-' : date('d M Y', strtotime($project->end_date)) }}</td>
