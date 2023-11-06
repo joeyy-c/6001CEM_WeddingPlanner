@@ -12,24 +12,23 @@ class DashboardController extends Controller
         // Select the total sales of vendor for current year, group by month
         $currentYear = date('Y'); 
         $chart_result = DB::table('project_services')
-            ->join('projects', 'project_services.project_id', '=', 'projects.id')
-            ->join('services', 'project_services.service_id', '=', 'services.id')
-            ->join('users', 'services.vendor_id', '=', 'users.id')
-            ->select(
-                DB::raw('SUM(services.service_price) as sales'),
-                DB::raw('MONTH(project_services.start_date) as month')
-            )
-            ->where('services.vendor_id', auth()->id())
-            ->whereNotIn('project_services.status', ['Declined', 'Cancelled', 'Waiting for Vendor\'s Confirmation', 'Deposit Payment'])
-            ->whereYear('project_services.start_date', $currentYear)
-            ->groupBy('month')
-            ->get()
-            ->toArray();
-
-            $myfile = fopen("test888.txt", "w") or die("Unable to open file!");
-            fwrite($myfile,print_r($chart_result, true));
-            fclose($myfile);
-
+                        ->join('projects', 'project_services.project_id', '=', 'projects.id')
+                        ->join('services', 'project_services.service_id', '=', 'services.id')
+                        ->join('users', 'services.vendor_id', '=', 'users.id')
+                        ->select(
+                            DB::raw('SUM(CASE 
+                                WHEN JSON_VALUE(users.user_info,"$.business_category") = "catering" THEN services.service_price * (JSON_VALUE(projects.project_details,"$.guest_count") / 10)
+                                WHEN JSON_VALUE(users.user_info,"$.business_category") = "stylist" THEN services.service_price * JSON_VALUE(projects.project_details,"$.num_of_pax_requiring_stylist")
+                                ELSE services.service_price
+                            END) as sales'),
+                            DB::raw('MONTH(project_services.start_date) as month')
+                        )
+                        ->where('services.vendor_id', auth()->id())
+                        ->whereNotIn('project_services.status', ['Declined', 'Cancelled', 'Waiting for Vendor\'s Confirmation', 'Deposit Payment'])
+                        ->whereYear('project_services.start_date', $currentYear)
+                        ->groupBy('month')
+                        ->get()
+                        ->toArray();
 
         $line_chart_data = array_fill(1, 12, 0); // create array from index 1 to 12, default value fill with 0
         foreach ($chart_result as $monthly_data) {
@@ -41,8 +40,6 @@ class DashboardController extends Controller
         $line_chart_data = array_values($line_chart_data); // remove the key of array
 
         $donut_chart_data = $this->getDonutChartData();
-
-        // die(print_r($line_chart_data));
 
         return view('vendor.dashboard', ['line_chart_data' => $line_chart_data, 'total_sales' => $total_sales, 'donut_chart_data' => $donut_chart_data]);
     }
@@ -69,13 +66,28 @@ class DashboardController extends Controller
     }
 
     private function getTopServicesSales() {
+        $currentYear = date('Y'); 
+
+        // Select the top 7 services sold
+        $top3Services = DB::table('project_services')
+                        ->join('services', 'project_services.service_id', '=', 'services.id')
+                        ->select('service_name', DB::raw('SUM(service_price) as total_service_sales'))
+                        ->where('vendor_id', auth()->id())
+                        ->whereNotIn('project_services.status', ['Declined', 'Cancelled', 'Waiting for Vendor\'s Confirmation', 'Deposit Payment'])
+                        ->whereYear('project_services.start_date', $currentYear)
+                        ->groupBy('service_name')
+                        ->orderByDesc('service_count')
+                        ->take(7)
+                        ->get();
+
+        
 
     }
 
     private function getDonutChartData() {
         $currentYear = date('Y'); 
 
-        // Query to select the top 3 services based on the count of valid service records
+        // Select the top 3 services sold
         $top3Services = DB::table('project_services')
                         ->join('services', 'project_services.service_id', '=', 'services.id')
                         ->select('service_name', DB::raw('COUNT(*) as service_count'))
@@ -87,9 +99,7 @@ class DashboardController extends Controller
                         ->take(3)
                         ->get();
 
-                        
-    
-        // Calculate the total count of all valid services
+        // Get the total count of services sold
         $totalServiceCount = DB::table('project_services')
                             ->join('services', 'project_services.service_id', '=', 'services.id')
                             ->where('vendor_id', auth()->id())
@@ -97,11 +107,10 @@ class DashboardController extends Controller
                             ->whereYear('project_services.start_date', $currentYear)
                             ->count();
     
-        // Initialize arrays to store the top 3 services and the count of others
         $donut_chart_data = [];
         $othersCount = 0;
     
-        // Loop through the top services to calculate percentages
+        // Calculate percentages for top 3 services
         foreach ($top3Services as $service) {
             $percentage = ($service->service_count / $totalServiceCount) * 100;
             $donut_chart_data[] = [
@@ -110,10 +119,10 @@ class DashboardController extends Controller
             ];
         }
     
-        // Query to calculate the count of "Others" services
+        // Calculate count of "Others" services
         $othersCount = $totalServiceCount - $top3Services->sum('service_count');
     
-        // Add "Others" category to the top services data
+        // Calculate percentages for "others" services
         if ($othersCount > 0) {
             $percentage = ($othersCount / $totalServiceCount) * 100;
             $donut_chart_data[] = [
@@ -122,15 +131,13 @@ class DashboardController extends Controller
             ];
         }
     
-        // Create the chart data
+        // Format Donut Chart Data
         $labels = [];
         $data = [];
-    
         foreach ($donut_chart_data as $service) {
             $labels[] = $service['service_name'];
             $data[] = (double)$service['percentage'];
         }
-
         $donut_chart_data = array("labels" => array_map('html_entity_decode', $labels), "data" => $data);
 
         return $donut_chart_data;
