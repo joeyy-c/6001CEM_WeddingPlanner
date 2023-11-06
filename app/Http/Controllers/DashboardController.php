@@ -11,6 +11,9 @@ class DashboardController extends Controller
     public function vendorDashboard() {
 
         $line_chart_data_and_total_sales = $this->getLineChartData();
+        $total_incoming_project = $this->getTotalIncomingProject();
+        $total_project_confirmed = $this->getTotalProjectConfirmed();
+        $total_project_declined_or_cancelled = $this->getTotalProjectDeclinedOrCancelled();
         $donut_chart_data = $this->getDonutChartData();
         $top_services_sales = $this->getTopServicesSales();
         $latest_projects = $this->getLatestProjects();
@@ -18,6 +21,9 @@ class DashboardController extends Controller
         return view('vendor.dashboard', [
             'line_chart_data' => $line_chart_data_and_total_sales['line_chart_data'], 
             'total_sales' => $line_chart_data_and_total_sales['total_sales'],
+            'total_incoming_project' => $total_incoming_project,
+            'total_project_confirmed' => $total_project_confirmed,
+            'total_project_declined_or_cancelled' => $total_project_declined_or_cancelled,
             'donut_chart_data' => $donut_chart_data,
             'top_services_sales' => $top_services_sales,
             'latest_projects' => $latest_projects 
@@ -45,7 +51,7 @@ class DashboardController extends Controller
                             DB::raw('MONTH(project_services.start_date) as month')
                         )
                         ->where('services.vendor_id', auth()->id())
-                        ->whereNotIn('project_services.status', ['Declined', 'Cancelled', 'Waiting for Vendor\'s Confirmation', 'Deposit Payment'])
+                        ->whereNotIn('project_services.status', ['Waiting for Vendor\'s Confirmation', 'Vendor Confirmed', 'Vendor Declined', 'Waiting for Deposit Payment', 'Cancelled'])
                         ->whereYear('project_services.start_date', $currentYear)
                         ->groupBy('month')
                         ->get()
@@ -64,15 +70,38 @@ class DashboardController extends Controller
     }
 
     private function getTotalIncomingProject() {
-
+        $currentYear = date('Y'); 
+        $totalIncomingProject = DB::table('project_services')
+                            ->join('services', 'project_services.service_id', '=', 'services.id')
+                            ->where('vendor_id', auth()->id())
+                            ->whereYear('project_services.start_date', $currentYear)
+                            ->count();
+        
+        return $totalIncomingProject;
     }
 
     private function getTotalProjectConfirmed() {
+        $currentYear = date('Y'); 
+        $totalProjectConfirmed = DB::table('project_services')
+                            ->join('services', 'project_services.service_id', '=', 'services.id')
+                            ->where('vendor_id', auth()->id())
+                            ->whereNotIn('project_services.status', ['Waiting for Vendor\'s Confirmation', 'Vendor Confirmed', 'Vendor Declined', 'Waiting for Deposit Payment', 'Cancelled'])
+                            ->whereYear('project_services.start_date', $currentYear)
+                            ->count();
         
+        return $totalProjectConfirmed;
     }
 
-    private function getTotalProjectDeclinedAndCancelled() {
+    private function getTotalProjectDeclinedOrCancelled() {
+        $currentYear = date('Y'); 
+        $totalProjectDeclinedOrCancelled = DB::table('project_services')
+                            ->join('services', 'project_services.service_id', '=', 'services.id')
+                            ->where('vendor_id', auth()->id())
+                            ->whereIn('project_services.status', ['Vendor Declined', 'Cancelled'])
+                            ->whereYear('project_services.start_date', $currentYear)
+                            ->count();
         
+        return $totalProjectDeclinedOrCancelled;
     }
 
     private function getTopServicesSales() {
@@ -91,7 +120,7 @@ class DashboardController extends Controller
                             END) as sales')
                         )
                         ->where('vendor_id', auth()->id())
-                        ->whereNotIn('project_services.status', ['Declined', 'Cancelled', 'Waiting for Vendor\'s Confirmation', 'Deposit Payment'])
+                        ->whereNotIn('project_services.status', ['Waiting for Vendor\'s Confirmation', 'Vendor Confirmed', 'Vendor Declined', 'Waiting for Deposit Payment', 'Cancelled'])
                         ->whereYear('project_services.start_date', $currentYear)
                         ->groupBy('service_name')
                         ->orderByDesc('sales')
@@ -109,7 +138,7 @@ class DashboardController extends Controller
                         ->join('services', 'project_services.service_id', '=', 'services.id')
                         ->select('service_name', DB::raw('COUNT(*) as service_count'))
                         ->where('vendor_id', auth()->id())
-                        ->whereNotIn('project_services.status', ['Declined', 'Cancelled', 'Waiting for Vendor\'s Confirmation', 'Deposit Payment'])
+                        ->whereNotIn('project_services.status', ['Waiting for Vendor\'s Confirmation', 'Vendor Confirmed', 'Vendor Declined', 'Waiting for Deposit Payment', 'Cancelled'])
                         ->whereYear('project_services.start_date', $currentYear)
                         ->groupBy('service_name')
                         ->orderByDesc('service_count')
@@ -120,7 +149,7 @@ class DashboardController extends Controller
         $totalServiceCount = DB::table('project_services')
                             ->join('services', 'project_services.service_id', '=', 'services.id')
                             ->where('vendor_id', auth()->id())
-                            ->whereNotIn('project_services.status', ['Declined', 'Cancelled', 'Waiting for Vendor\'s Confirmation', 'Deposit Payment'])
+                            ->whereNotIn('project_services.status', ['Waiting for Vendor\'s Confirmation', 'Vendor Confirmed', 'Vendor Declined', 'Waiting for Deposit Payment', 'Cancelled'])
                             ->whereYear('project_services.start_date', $currentYear)
                             ->count();
     

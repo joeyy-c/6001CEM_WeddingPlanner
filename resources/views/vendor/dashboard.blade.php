@@ -6,12 +6,12 @@
       <div class="row">
         <div class="col-12 col-xl-8 mb-4 mb-xl-0">
           <h3 class="font-weight-bold">Welcome <span class="text-primary">{{ auth()->user()->name }}</span></h3>
-          <p class="font-weight-normal mb-0">Always monitor and keep track of sales reports, project progress, and service-related statistics here. <br/>Only projects that have received a deposit payment and have not been declined or cancelled by the vendor will be included in the calculation.</p>
+          <p class="font-weight-normal mb-0">Always monitor and keep track of sales reports, project progress, and service-related statistics here. <br/>Only projects that have received a deposit payment and have not been declined or cancelled by your side will be included in the calculation.</p>
         </div>
         <div class="col-12 col-xl-4">
           <div class="justify-content-end d-flex">
           <div class="dropdown flex-md-grow-1 flex-xl-grow-0">
-            <button type="button" class="btn btn-outline-primary" disabled>Year {{ date("Y") }}</button>
+            <button type="button" class="btn btn-primary" disabled>Year {{ date("Y") }}</button>
           </div>
           </div>
         </div>
@@ -36,7 +36,8 @@
             <div class="card-body">
               <p class="mb-4">Total Sales (RM)</p>
               <p class="fs-30 mb-2">{{ $total_sales }}</p>
-              <p>10.00% (30 days)</p>
+              <p>Total sales amount for current year.</p>
+              <!-- <p>10.00% (30 days)</p> -->
             </div>
           </div>
         </div>
@@ -44,8 +45,9 @@
           <div class="card card-dark-blue">
             <div class="card-body">
               <p class="mb-4">Total Incoming Projects</p>
-              <p class="fs-30 mb-2">12</p>
-              <p>22.00% (30 days)</p>
+              <p class="fs-30 mb-2">{{ $total_incoming_project }}</p>
+              <p>Total projects that have been received.</p>
+              <!-- <p>22.00% (30 days)</p> -->
             </div>
           </div>
         </div>
@@ -55,8 +57,9 @@
           <div class="card card-light-blue">
             <div class="card-body">
               <p class="mb-4">Projects Confirmed</p>
-              <p class="fs-30 mb-2">34040</p>
-              <p>2.00% (30 days)</p>
+              <p class="fs-30 mb-2">{{ $total_project_confirmed }}</p>
+              <p>Total projects that has received deposit payment and confimed.</p>
+              <!-- <p>2.00% (30 days)</p> -->
             </div>
           </div>
         </div>
@@ -64,8 +67,9 @@
           <div class="card card-light-danger">
             <div class="card-body">
               <p class="mb-4">Projects Declined/Cancelled</p>
-              <p class="fs-30 mb-2">47033</p>
-              <p>0.22% (30 days)</p>
+              <p class="fs-30 mb-2">{{ $total_project_declined_or_cancelled }}</p>
+              <p>Total projects that declined or cancelled by your side.</p>
+              <!-- <p>0.22% (30 days)</p> -->
             </div>
           </div>
         </div>
@@ -128,9 +132,9 @@
     <div class="col-md-12 grid-margin stretch-card">
       <div class="card">
         <div class="card-body">
-          <p class="card-title mb-0">Latest Projects</p>
+          <p class="card-title">Latest Projects</p>
           <div class="table-responsive">
-            <table class="table table-striped table-borderless">
+            <table class="display expandable-table" style="width:100%">
               <thead>
                 <tr>
                   <th>ID</th>
