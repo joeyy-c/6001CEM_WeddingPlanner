@@ -13,7 +13,9 @@
         <div class="col-4">
         </div>
         <div class="col-4 text-center">
-          <a class="blog-header-logo text-dark" href="#">LOGO</a>
+          <a class="blog-header-logo {{ $navDark ? 'text-light' : 'text-dark' }}" href="/">
+            <img class="{{ $navDark ? 'navbar-logo' : 'navbar-logo-dark' }}" src="{{ asset('images/logo.png') }}" alt="">
+          </a>
         </div>
         <!-- Navbar Login/User Name Dropdown Button -->
         <div class="col-4 btn-group dropdown-center justify-content-end">
@@ -36,8 +38,10 @@
             </ul>
           @else
             <!-- Show login button if user not logged in & user not in the login page -->
-            @if(\Route::currentRouteName() != 'login')
+            @if (\Route::currentRouteName() != 'login')
               <a href="{{ route('login') }}" class="button button-primary-outline" style="width: 45%; padding: 12px">Login</a>
+            @else
+              <a href="{{ route('register') }}" class="button button-primary-outline" style="width: 45%; padding: 12px">Register</a>
             @endif
           @endauth
         </div>
@@ -49,7 +53,7 @@
               <a class="rd-nav-link {{ $navDark ? 'text-white' : '' }}" href="/">Home</a>
           </li>
           <li class="p-2 rd-nav-item">
-              <a class="rd-nav-link {{ $navDark ? 'text-white' : '' }}" href="about_us.html">About Us</a>
+              <a class="rd-nav-link {{ $navDark ? 'text-white' : '' }}" href="{{ route('about-us') }}">About Us</a>
           </li>
           <!-- <li class="p-2 rd-nav-item">
               <a class="rd-nav-link {{ $navDark ? 'text-white' : '' }}" href="vendors.html">Vendors</a>
@@ -74,6 +78,6 @@
 </div>
 
 @if ($navDark)
-  @include('layouts.partials.home-banner')
+  @include('layouts.partials.site.home-banner')
 </div>
 @endif

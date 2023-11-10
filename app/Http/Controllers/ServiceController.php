@@ -33,29 +33,6 @@ class ServiceController extends Controller
     public function store(Request $request) {
 
         $user = Auth::user();
-        // $user->user_info = json_decode($user->user_info, true);
-        // $service_info = array();
-       
-        // switch ($user->user_info['business_category']) {
-        //     case 'venue':
-        //         $service_info['max_guest_capacity'] = $request->input('max_guest_capacity');
-        //         break;
-
-        //     case 'wedding_rentals':
-        //         $service_info['count_of_guest'] = $request->input('count_of_guest');
-        //         break;
-
-        //     // case 'catering':
-                
-        //     // case 'stylist':
-
-        //     case 'photography_and_videography':
-        //         $service_info['photography_and_videography_duration'] = $request->input('photography_and_videography_duration');
-        //         break;
-
-        //     default:
-        //         break;
-        // };
 
         $service = Service::create([
             'service_enable' => 1,
@@ -102,6 +79,8 @@ class ServiceController extends Controller
         // return $service;
 
         if ($user->role->role_name == 'Vendor') {
+            if ($service->vendor->id != Auth::user()->id)
+                return back();
             return view('vendor.services.edit', ['service' => $service]);
         }
         else if ($user->role->role_name == 'Admin') {

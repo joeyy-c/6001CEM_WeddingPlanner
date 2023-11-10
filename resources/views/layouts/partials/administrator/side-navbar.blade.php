@@ -6,26 +6,20 @@
     <ul class="nav">
     <li class="nav-item">
         <a class="nav-link" href="{{ route('vendor.dashboard') }}">
-            <i class="icon-grid menu-icon"></i>
+            <i class="icon-grid menu-icon ti-stats-up"></i>
             <span class="menu-title">Dashboard</span>
         </a>
     </li>
     <li class="nav-item">
         <a class="nav-link" href="{{ $isAdmin ? route('admin.projects.index') : route('vendor.projects.index') }}">
-            <i class="icon-grid menu-icon"></i>
+            <i class="icon-grid menu-icon ti-clipboard"></i>
             <span class="menu-title">Projects</span>
         </a>
     </li>
     <li class="nav-item">
         <a class="nav-link" href="{{ $isAdmin ? route('admin.services.index') : route('vendor.services.index') }}">
-            <i class="icon-grid menu-icon"></i>
+            <i class="icon-grid menu-icon ti-layout-list-thumb"></i>
             <span class="menu-title">Services</span>
-        </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="#">
-            <i class="icon-grid menu-icon"></i>
-            <span class="menu-title">Service Availability</span>
         </a>
     </li>
     @if ($isAdmin)
@@ -44,5 +38,11 @@
             </div>
         </li>
     @endif
+    <li class="nav-item">
+        <a class="nav-link" href="{{ $isAdmin ? '' : route('vendorProfile.edit') }}">
+            <i class="icon-grid menu-icon ti-id-badge"></i>
+            <span class="menu-title">Profile</span>
+        </a>
+    </li>
     </ul>
 </nav>

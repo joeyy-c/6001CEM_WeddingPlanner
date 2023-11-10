@@ -50,10 +50,6 @@ class RegisteredUserController extends Controller
             ]
         );
 
-        // if ($request->input('admin') == true) {
-        //     $role = Role::where('Admin', $roleName)->first();
-        // }
-        // else
         if (isset($request->user_info['business_category'])) {
             $role = Role::where('role_name', 'Vendor')->first();
         }

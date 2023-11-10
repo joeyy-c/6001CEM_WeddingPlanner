@@ -37,7 +37,7 @@
                 <th>Address</th>
                 <th>City/State</th>
                 <th>Website</th>
-                <th>Status</th>
+                <!-- <th>Status</th> -->
               </tr>
             </thead>
             <tbody>
@@ -51,7 +51,7 @@
                 <td>{{ $vendor->user_info->address }}</td>
                 <td>{{ ucwords(str_replace('_', ' ', $vendor->user_info->city)) . ', ' . ucwords(str_replace('_', ' ', $vendor->user_info->state)) }}</td>
                 <td></td>
-                <td></td>
+                <!-- <td></td> -->
               </tr>
               @endforeach
             </tbody>

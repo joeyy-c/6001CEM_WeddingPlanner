@@ -21,12 +21,6 @@
                 <label for="budget" class="col-3 col-form-label form-label-2">Budget (RM)</label>
                 <div class="col-9">
                   <input class="form-input" type="number" name="budget" id="budget" min="{{ $min_budget }}" step="1" placeholder="100000" required>
-                  <!-- <div class="text-secondary mt-3 input-desc">Your budget for the wedding.</div> -->
-                  
-                  <!-- <div class="text-secondary mt-3 input-desc">
-                    <input type="checkbox" name="budget_tolerance" id="budget_tolerance">
-                    <label for="budget_tolerance">Allow expenses to exceed budget within 10% tolerances.</label>
-                  </div> -->
                 </div>
               </div>
 

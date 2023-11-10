@@ -8,10 +8,10 @@
     </div>
   </section>
 
-  <section class="section section-sm">
+  <section class="section section-xs">
     <div class="container">
       @if(session('message'))
-        <div class="alert alert-success col-12 mx-auto">
+        <div class="alert alert-success col-12 mx-auto mt-5">
             {{ session('message') }}
         </div>
       @endif
@@ -28,22 +28,30 @@
         </div>
       @else
       <div class="container">
-        <p><b>Titleee:</b> {{ $project->project_name }}</p>
-        <p><b>Wedding Dateee:</b> {{ date('d M Y', strtotime($project->wedding_date)) }}</p>
-        <p><b>Budgettt:</b> RM {{ $project->project_details->budget }}</p>
-        <p><b>Remarksss:</b>  
-          <button class="btn btn-secondary btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#collapseRemark" aria-expanded="false" aria-controls="collapseExample">
-            <i class="fa-solid fa-eye"></i>
-          </button>
-          <div class="collapse pt-3" id="collapseRemark">
-            <div class="card card-body">
-            {{ $project->project_remark }}
+        <div class="row">
+          <div class="col-7 border-primary p-5 me-5 wow blurIn rounded d-flex flex-column justify-content-between" style="visibility: visible; animation-name: blurIn;">
+            <h2>{{ $project->project_name }}</h2>
+            <p>Wedding Date: {{ date('d M Y', strtotime($project->wedding_date)) }}</p>
+          </div>
+          <div class="col-4 border-primary p-5 ms-5 wow blurIn rounded" style="visibility: visible; animation-name: blurIn;">
+            <div class="row">
+              <h5>Your budget:</h5>
+              <p class="mt-3">RM {{ $project->project_details->budget }}</p>
+            </div>
+            <hr>
+            <div class="row d-flex">
+              <h5>Remarks:</h5>
+              <button class="col-2 btn btn-secondary btn-sm ms-3 my-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapseRemark" aria-expanded="false" aria-controls="collapseExample">
+                <i class="fa-solid fa-eye"></i>
+              </button>
+              <div class="collapse pt-3" id="collapseRemark">
+                <div class="card card-body">
+                {{ $project->project_remark }}
+                </div>
+              </div>
             </div>
           </div>
-        </p>
-        <!-- <div class="border-primary p-4">
-          <p>123</p>
-        </div> -->
+        </div>
 
         @php 
           $declined_history_service_ids = $latest_declined_service_ids = $declined_namelist = array();
@@ -66,7 +74,7 @@
         @endphp
 
         @if (!empty($latest_declined_service_ids))
-          <div class="alert alert-danger" role="alert">
+          <div class="alert alert-danger mt-5" role="alert">
             <h5 class="alert-heading"><i class="fa-solid fa-warning pe-2"></i>Important Notice</h5>
             <form id="getNewRecommendations" action="{{ route('wedding-planning.getRecommendations') }}" method="post">
               @csrf
@@ -204,7 +212,7 @@
       </section>
 
       <!-- Services Declined/Cancelled by Vendor -->
-      <section class="section">
+      <section class="section mb-5">
         <div class="caption-classic">
           <div class="caption-classic-group">
             <h3 class="caption-classic-title wow fadeInLeft" style="visibility: visible; animation-name: fadeInLeft;">Services <span class="font-weight-light">Declined</span></h3>

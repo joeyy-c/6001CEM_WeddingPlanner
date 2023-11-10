@@ -44,8 +44,8 @@
         <div class="col-md-6 mb-4 stretch-card transparent">
           <div class="card card-dark-blue">
             <div class="card-body">
-              <p class="mb-4">Total Incoming Projects</p>
-              <p class="fs-30 mb-2">{{ $total_incoming_project }}</p>
+              <p class="mb-4">Total Projects</p>
+              <p class="fs-30 mb-2">{{ $total_project }}</p>
               <p>Total projects that have been received.</p>
               <!-- <p>22.00% (30 days)</p> -->
             </div>
@@ -149,9 +149,9 @@
               <tbody>
                 @foreach ($latest_projects as $project)
                   <tr>
-                      <td><a href="{{ route('vendor.projects.edit', ['project_service' => $project]) }}">{{ $project->id }}</a></td>
+                      <td><a href="{{ route('vendor.projects.edit', ['project_service' => $project]) }}" target="_blank">{{ $project->id }}</a></td>
                       <td>{{ $project->project->project_name }}</td>
-                      <td><a href="{{ route('vendor.services.edit', ['service' => $project->service]) }}">{{ $project->service->service_name }}</a></td>
+                      <td><a href="{{ route('vendor.services.edit', ['service' => $project->service]) }}" target="_blank">{{ $project->service->service_name }}</a></td>
                       <td>{{ empty($project->start_date) ? '-' : date('d M Y', strtotime($project->start_date)) }}</td>
                       <td>{{ empty($project->end_date) ? '-' : date('d M Y', strtotime($project->end_date)) }}</td>
                       <td>{{ date('d M Y', strtotime($project->project->wedding_date)) }}</td>

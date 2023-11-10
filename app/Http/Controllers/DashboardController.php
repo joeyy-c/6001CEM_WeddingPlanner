@@ -5,13 +5,14 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\ProjectService;
 use Illuminate\Support\Facades\DB;
+use App\Models\Project;
 
 class DashboardController extends Controller
 {
     public function vendorDashboard() {
 
         $line_chart_data_and_total_sales = $this->getLineChartData();
-        $total_incoming_project = $this->getTotalIncomingProject();
+        $total_project = $this->getTotalProject();
         $total_project_confirmed = $this->getTotalProjectConfirmed();
         $total_project_declined_or_cancelled = $this->getTotalProjectDeclinedOrCancelled();
         $donut_chart_data = $this->getDonutChartData();
@@ -21,7 +22,7 @@ class DashboardController extends Controller
         return view('vendor.dashboard', [
             'line_chart_data' => $line_chart_data_and_total_sales['line_chart_data'], 
             'total_sales' => $line_chart_data_and_total_sales['total_sales'],
-            'total_incoming_project' => $total_incoming_project,
+            'total_project' => $total_project,
             'total_project_confirmed' => $total_project_confirmed,
             'total_project_declined_or_cancelled' => $total_project_declined_or_cancelled,
             'donut_chart_data' => $donut_chart_data,
@@ -32,7 +33,16 @@ class DashboardController extends Controller
 
     public function adminDashboard() {
 
-        return view('admin.dashboard', []);
+        $line_chart_data_and_total_sales = $this->getLineChartData();
+        $total_project = $this->getTotalProject();
+        $latest_projects = $this->getLatestProjects();
+
+        return view('admin.dashboard', [
+            'line_chart_data' => $line_chart_data_and_total_sales['line_chart_data'], 
+            'total_sales' => $line_chart_data_and_total_sales['total_sales'],
+            'total_project' => $total_project,
+            'latest_projects' => $latest_projects 
+        ]);
     }
 
     public function getLineChartData() {
@@ -49,9 +59,13 @@ class DashboardController extends Controller
                                 ELSE services.service_price
                             END) as sales'),
                             DB::raw('MONTH(project_services.start_date) as month')
-                        )
-                        ->where('services.vendor_id', auth()->id())
-                        ->whereNotIn('project_services.status', ['Waiting for Vendor\'s Confirmation', 'Vendor Confirmed', 'Vendor Declined', 'Waiting for Deposit Payment', 'Cancelled'])
+                        );
+                        
+
+        if (auth()->user()->role->role_name == "Vendor")
+            $chart_result = $chart_result->where('services.vendor_id', auth()->id());
+
+        $chart_result = $chart_result->whereNotIn('project_services.status', ['Waiting for Vendor\'s Confirmation', 'Vendor Confirmed', 'Vendor Declined', 'Waiting for Deposit Payment', 'Cancelled'])
                         ->whereYear('project_services.start_date', $currentYear)
                         ->groupBy('month')
                         ->get()
@@ -66,16 +80,26 @@ class DashboardController extends Controller
         $total_sales = array_sum($line_chart_data); // total sales of current year
         $line_chart_data = array_values($line_chart_data); // remove the key of array
 
+        // die(print_r($line_chart_data));
+
         return array('line_chart_data' => $line_chart_data, 'total_sales' => number_format($total_sales, 2));
     }
 
-    private function getTotalIncomingProject() {
+    private function getTotalProject() {
         $currentYear = date('Y'); 
-        $totalIncomingProject = DB::table('project_services')
-                            ->join('services', 'project_services.service_id', '=', 'services.id')
-                            ->where('vendor_id', auth()->id())
-                            ->whereYear('project_services.start_date', $currentYear)
-                            ->count();
+
+        if (auth()->user()->role->role_name == "Vendor") {
+            $totalIncomingProject = DB::table('project_services')
+                                    ->join('services', 'project_services.service_id', '=', 'services.id')
+                                    ->where('vendor_id', auth()->id())
+                                    ->whereYear('project_services.start_date', $currentYear)
+                                    ->count();
+        }
+        else {
+            $totalIncomingProject = DB::table('projects')
+                                    ->whereYear('wedding_date', $currentYear)
+                                    ->count();
+        }
         
         return $totalIncomingProject;
     }
@@ -190,12 +214,42 @@ class DashboardController extends Controller
     }
 
     private function getLatestProjects() {
-        $userId = auth()->id();
 
-        $projects = ProjectService::whereHas('service', function ($query) use ($userId) {
-            $query->where('vendor_id', $userId);
-        })->with('service', 'project', 'project.cust')->take(10)->get();
+        if (auth()->user()->role->role_name == "Vendor") {
+            $userId = auth()->id();
 
-        return $projects;
+            $projects = ProjectService::whereHas('service', function ($query) use ($userId) {
+                $query->where('vendor_id', $userId);
+            })->with('service', 'project', 'project.cust')->orderByDesc('project_services.id')->take(10)->get();
+    
+            return $projects;
+        }
+        else {
+            $projects = Project::with('projectServices.service')->orderByDesc('id')->get();
+
+            $projectsDetails = [];
+    
+            foreach ($projects as $project) {
+                $projectServices = $project->projectServices->map(function ($projectService) {
+                    return [
+                        'service_id' => $projectService->service->id,
+                        'service_name' => $projectService->service->service_name,
+                        'service_status' => $projectService->status,
+                        'vendor_category' => ucwords(str_replace('_', ' ', json_decode($projectService->service->vendor->user_info)->business_category)),
+                    ];
+                });
+    
+                $projectsDetails[] = (object) [
+                    'project_id'    => $project->id,
+                    'project_name'    => $project->project_name,
+                    'wedding_date' => $project->wedding_date,
+                    'budget' => json_decode($project->project_details)->budget,
+                    'cust_name' => $project->cust->name,
+                    'services' => $projectServices,
+                ];            
+            }
+    
+            return $projectsDetails;
+        }
     }
 }

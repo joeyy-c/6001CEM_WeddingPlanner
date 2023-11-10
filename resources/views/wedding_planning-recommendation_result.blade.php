@@ -48,7 +48,7 @@
 
                                 <!-- Service Name -->
                                 <h5 class="mb-3 text-center">{{ $category_service->service_name }}</h5>
-                                <p>[ Log ] Service Price: {{ $category_service->service_price }}</p>
+                                <!-- <p>[ Log ] Service Price: {{ $category_service->service_price }}</p> -->
                                 <p class="pb-3">
                                   @php 
                                     $vendor_info = json_decode($category_service->vendor->user_info, true);

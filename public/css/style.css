@@ -4770,6 +4770,15 @@ html.tablet .ui-to-top {
 *
 * RD Navbar
 */
+.navbar-logo {
+	width: 50px
+}
+
+.navbar-logo-dark {
+	width: 50px;
+	filter: invert();
+}
+
 @keyframes rd-navbar-slide-down {
 	0% {
 		transform: translateY(-100%);
@@ -5855,6 +5864,7 @@ html.rd-navbar-fixed-linked .page-header {
 	width: 100%;
 	/* Fix of Webkit flickering */
 	z-index: 1;
+	opacity: 0.5;
 }
 
 .swiper-container-no-flexbox .swiper-slide {

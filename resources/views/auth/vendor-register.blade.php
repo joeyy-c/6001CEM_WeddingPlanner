@@ -1,21 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>Vendor Register</title>
-
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link rel="icon" href="images/favicon.ico" type="image/x-icon">
-    <!-- <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Montserrat:300,400,500,700,800"> -->
-    <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/fonts.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-</head>
-
-<body>
-
-    <div class="d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+@extends('layouts.app')
+        
+@section('content')
+<section class="section novi-background bg-cover section-lg bg-gray-100">
+    <div class="d-flex justify-content-center align-items-center">
         <div class="col-10 border-primary p-5 wow blurIn" style="visibility: visible; animation-name: blurIn;">
         
             <form method="POST" action="{{ route('vendor-register') }}">
@@ -164,7 +151,5 @@
             </form>
         </div>
     </div>
-
-    <script src="{{ asset('js/core.min.js') }}"></script>
-    <script src="{{ asset('js/script.js') }}"></script>
-</body>
+</section>
+@endsection

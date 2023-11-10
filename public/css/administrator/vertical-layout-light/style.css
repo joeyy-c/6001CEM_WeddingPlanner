@@ -28830,7 +28830,8 @@ div.tagsinput span.tag a {
 }
 
 .navbar .navbar-brand-wrapper .brand-logo-mini img {
-  width: calc(70px - 30px);
+  /* width: calc(70px - 30px); */
+  width: 32px;
   max-width: 100%;
   margin: auto;
 }
@@ -30594,4 +30595,18 @@ div.tagsinput span.tag a {
 
 .form-group a {
   color: #007bff;
+}
+
+.navbar-logo {
+	width: 20px
+}
+
+.navbar-logo-dark {
+	width: 32px;
+	filter: invert();
+}
+
+.navbar-logo-dark {
+	width: 32px;
+	filter: invert();
 }

@@ -26,6 +26,9 @@ class ProjectServiceController extends Controller
         $project_service->load('service', 'project', 'project.cust');
         $project_service->project->cust->user_info = json_decode( $project_service->project->cust->user_info);
 
+        if ($project_service->service->vendor_id != Auth::user()->id)
+            return back();
+
         // return $project_service;
 
         return view('vendor.projects.edit', ['project' => $project_service]);

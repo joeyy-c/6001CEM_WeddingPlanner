@@ -14,19 +14,9 @@
             ],
             pointBackgroundColor: '#4747A1',
             borderWidth: 2,
-            fill: false,
+            backgroundColor: 'rgba(71, 71, 161, 0.3)',
             label: "Sales (RM)"
           },
-          // {
-          //   data: [400, 450, 410, 500, 480, 600, 450, 550, 460, "560", "450", "700"],
-          //   borderColor: [
-          //     '#F09397'
-          //   ],
-          //   pointBackgroundColor: '#F09397',
-          //   borderWidth: 2,
-          //   fill: false,
-          //   label: "Downloads"
-          // }
         ]
       };
 
@@ -129,7 +119,7 @@
 
           for (var i = 0; i < donut_chart_data.labels.length; i++) {
             text.push('<div class="d-flex justify-content-between mx-4 mx-xl-5 mt-3"><div class="d-flex align-items-center"><div class="mr-3" style="width:20px; height:20px; border-radius: 50%; background-color: ' + chart.data.datasets[0].backgroundColor[i] + '"></div><p class="mb-0">' + donut_chart_data.labels[i] + '</p></div>');
-            text.push('<p class="mb-0">' + donut_chart_data.data[i] + '%</p>');    
+            text.push('<p class="mb-0">' + donut_chart_data.data[i].toFixed(2) + '%</p>');    
             text.push('</div>');    
           }
 
