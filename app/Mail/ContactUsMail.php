@@ -23,56 +23,22 @@ class ContactUsMail extends Mailable
     public function __construct($data)
     {
         $this->data = [
-            'name' => (string)$data['name'],
-            'email' => (string)$data['email'],
-            'subject' => (string)$data['subject'],
-            'message' => (string)$data['message'],
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'subject' => $data['subject'],
+            'messages' => $data['messages'],
+            'website_name' => $data['website_name'],
         ];
     }
 
     public function build()
     {
         return $this->view('emails.contact_us')
-            ->subject('Contact Us Mail')
-            ->with([
-                'name' => $this->data['name'],
-                'email' => $this->data['email'],
-                'subject' => $this->data['subject'],
-                'message' => $this->data['message'],
-            ]);
+                    ->subject('[De Lavish] from ' . $this->data['name'] . ': ' . $this->data['subject'])
+                    ->with([
+                        'name' => $this->data['name'],
+                        'email' => $this->data['email'],
+                        'messages' => $this->data['messages'],
+                    ]);
     }
-
-    // /**
-    //  * Get the message envelope.
-    //  *
-    //  * @return \Illuminate\Mail\Mailables\Envelope
-    //  */
-    // public function envelope()
-    // {
-    //     return new Envelope(
-    //         subject: 'Contact Us Mail',
-    //     );
-    // }
-
-    // /**
-    //  * Get the message content definition.
-    //  *
-    //  * @return \Illuminate\Mail\Mailables\Content
-    //  */
-    // public function content()
-    // {
-    //     return new Content(
-    //         view: 'view.name',
-    //     );
-    // }
-
-    // /**
-    //  * Get the attachments for the message.
-    //  *
-    //  * @return array
-    //  */
-    // public function attachments()
-    // {
-    //     return [];
-    // }
 }

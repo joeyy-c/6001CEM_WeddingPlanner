@@ -1,4 +1,3 @@
 <p>Name: {{ $name }}</p>
-<p>Email: {{ $email }}</p>
-<p>Subject: {{ $subject }}</p>
-<p>Message: {{ $message }}</p>
+<p>E-mail: {{ $email }}</p>
+<p>Message: {{ $messages }}</p>

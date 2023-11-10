@@ -38,11 +38,7 @@ Route::get('/welcome', function () {
 Route::get('/contact-us', function () {
     return view('contact_us');
 })->name('contact-us');
-
-// Route::post('/contact-us', function () {
-//     return view('contact_us');
-// })->name('contact-us');
-// Route::post('/contact-us', [MailController::class, 'send_email'])->name('contact-us.send-email');
+Route::post('/contact-us', [MailController::class, 'send_email'])->name('contact-us.send-email');
 
 // Route::get('/dashboard', function () {
 //     return view('dashboard');
