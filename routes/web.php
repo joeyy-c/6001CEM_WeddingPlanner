@@ -9,6 +9,7 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\WeddingPlanningController;
 use App\Http\Controllers\ProjectServiceController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\MailController;
 
 
 /*
@@ -37,6 +38,11 @@ Route::get('/welcome', function () {
 Route::get('/contact-us', function () {
     return view('contact_us');
 })->name('contact-us');
+
+// Route::post('/contact-us', function () {
+//     return view('contact_us');
+// })->name('contact-us');
+// Route::post('/contact-us', [MailController::class, 'send_email'])->name('contact-us.send-email');
 
 // Route::get('/dashboard', function () {
 //     return view('dashboard');

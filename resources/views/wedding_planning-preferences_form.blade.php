@@ -20,7 +20,7 @@
                 <p class="fw-bold fs-6 mb-4">Tell us your preferences and desires:</p>
                 <label for="state" class="col-3 col-form-label form-label-2">Wedding Date</label>
                 <div class="col-9">
-                  <input class="form-input" type="date" name="wedding_date" id="wedding_date" required>
+                  <input class="form-input" type="date" name="wedding_date" id="wedding_date" min="{{ now()->addMonths(3)->format('Y-m-d') }}" required>
                 </div>
               </div>
 

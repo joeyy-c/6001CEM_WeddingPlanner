@@ -130,6 +130,8 @@
                             <x-input-error :messages="$errors->get('user_info.postal_code')" class="mt-2" />
                         </div>
 
+                        <input class="form-input" id="website_link" type="hidden" name="user_info[website_link]" value="{{ old('user_info.website_link') }}">
+
                         <!-- Submit Button -->
                         <div class="d-flex align-items-center justify-content-end mt-5">
                             <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}">
