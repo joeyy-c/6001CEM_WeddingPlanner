@@ -79,6 +79,19 @@
                 </div>
               </div>
 
+               <!-- Phone -->
+               <div class="row">
+                <div class="col">
+                  <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">Website Link</label>
+                    <div class="col-sm-8">
+                      <input type="url" id="website_link" name="user_info[website_link]" class="form-control" value="{{ old('user_info.website_link', $user->user_info->website_link) }}" required />
+                      <x-input-error class="mt-2" :messages="$errors->get('user_info.website_link')" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
               <!-- Business Category -->
               <div class="row">
                 <div class="col">

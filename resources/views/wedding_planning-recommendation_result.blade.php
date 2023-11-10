@@ -68,7 +68,7 @@
                                   <br/>
 
                                   <!-- Vendor Website -->
-                                <i class="fa-solid fa-link pe-1"></i> <a href="#"> www.company_a.com</a>
+                                <i class="fa-solid fa-link pe-1"></i> <a href="{{ $vendor_info['website_link'] }}" target="_blank"> {{ $vendor_info['website_link'] }}</a>
                                 </p>
 
                                 <hr>

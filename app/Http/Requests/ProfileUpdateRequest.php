@@ -30,6 +30,7 @@ class ProfileUpdateRequest extends FormRequest
                 'name' => ['string', 'max:255'],
                 'email' => ['email', 'max:255', Rule::unique(User::class)->ignore($this->user()->id)],
                 'user_info.phone' => ['numeric', 'digits_between:9,11', new \App\Rules\PhoneNumber],
+                'user_info.website_link' => ['string', 'max:255'],
                 'user_info.business_category' => ['string', 'max:255'],
                 'user_info.address' => ['string', 'max:255'],
                 'user_info.state' => ['string', 'max:255'],

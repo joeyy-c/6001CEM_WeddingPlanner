@@ -50,7 +50,7 @@
                 <td>{{ $vendor->email }}</td>
                 <td>{{ $vendor->user_info->address }}</td>
                 <td>{{ ucwords(str_replace('_', ' ', $vendor->user_info->city)) . ', ' . ucwords(str_replace('_', ' ', $vendor->user_info->state)) }}</td>
-                <td></td>
+                <td><a href="{{ $vendor->user_info->website_link }}" target="_blank">{{ $vendor->user_info->website_link }}</a></td>
                 <!-- <td></td> -->
               </tr>
               @endforeach

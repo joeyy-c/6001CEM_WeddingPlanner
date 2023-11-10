@@ -12,18 +12,23 @@
             <h6 class="title-style-1 wow fadeInRight" data-wow-delay=".05s">Let's work together!</h6>
             <div class="form-style-1 context-dark wow blurIn">
               <!-- RD Mailform-->
-              <form class="rd-mailform text-left" data-form-output="form-output-global" data-form-type="contact" method="post" action="bat/rd-mailform.php">
+              <form method="post" action="{{ route('contact-us.send-email') }}">
+                @csrf
                 <div class="form-wrap">
                   <label class="form-label" for="contact-name-2">Name</label>
-                  <input class="form-input" id="contact-name-2" type="text" name="name">
+                  <input class="form-input" id="contact-name-2" type="text" name="name" required>
                 </div>
                 <div class="form-wrap">
                   <label class="form-label" for="contact-email-2">Email</label>
-                  <input class="form-input" id="contact-email-2" type="email" name="email">
+                  <input class="form-input" id="contact-email-2" type="email" name="email" required>
                 </div>
                 <div class="form-wrap">
-                  <label class="form-label" for="contact-phone-2">Phone</label>
-                  <input class="form-input" id="contact-phone-2" type="text" name="phone">
+                  <label class="form-label" for="contact-subject-2">Subject</label>
+                  <input class="form-input" id="contact-subject-2" type="text" name="subject" required>
+                </div>
+                <div class="form-wrap">
+                  <label class="form-label" for="contact-message-2">Message</label>
+                  <textarea class="form-input" id="contact-message-2" name="message" required></textarea>
                 </div>
                 <div class="form-button">
                   <button class="button button-jerry button-primary" type="submit">Submit<span class="button-jerry-line"></span><span class="button-jerry-line"></span><span class="button-jerry-line"></span><span class="button-jerry-line"></span>

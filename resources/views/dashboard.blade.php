@@ -178,7 +178,7 @@
                       <br/>
 
                       <!-- Vendor Website -->
-                      <i class="fa-solid fa-link pe-1"></i> <a href="#"> www.company_a.com</a><br/>
+                      <i class="fa-solid fa-link pe-1"></i> <a href="{{ $service->service->vendor->user_info_decoded->website_link }}" target="_blank">{{ $service->service->vendor->user_info_decoded->website_link }} </a><br/>
                     </div>
 
                     <hr>
@@ -284,7 +284,7 @@
                       <br/>
 
                       <!-- Vendor Website -->
-                      <i class="fa-solid fa-link pe-1"></i> <a href="#"> www.company_a.com</a><br/>
+                      <i class="fa-solid fa-link pe-1"></i> <a href="{{ $service->service->vendor->user_info_decoded->website_link }}" target="_blank"> {{ $service->service->vendor->user_info_decoded->website_link }}</a><br/>
                     </div>
 
                     <hr>
