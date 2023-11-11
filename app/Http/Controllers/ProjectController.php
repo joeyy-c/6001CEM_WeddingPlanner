@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Project;
 use App\Models\ProjectService;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\NewProjectNotification;
 
 class ProjectController extends Controller
 {
@@ -99,11 +101,22 @@ class ProjectController extends Controller
 
         foreach ($request->all() as $key => $value) {
             if (in_array($key, $business_categories)) {
-                ProjectService::create([
-                    'project_id' => $request->has('project_id') ? $request->input('project_id') : $project->id,
-                    'service_id' => $value,
-                    'status' => 'Waiting for Vendor\'s Confirmation'
-                ]);
+                $project_service = ProjectService::create([
+                                    'project_id' => $request->has('project_id') ? $request->input('project_id') : $project->id,
+                                    'service_id' => $value,
+                                    'status' => 'Waiting for Vendor\'s Confirmation'
+                                ]);
+
+                // send email to vendor
+                $data = [
+                    'id' => $project_service->id,
+                    'project_name' => $project_service->project->project_name,
+                    'user_name' => $user->name,
+                    'user_email' => $user->email,
+                    'service_id' => $project_service->service_id,
+                    'service_name' => $project_service->service->service_name,
+                ];
+                Mail::to('chengxinye@gmail.com')->send(new NewProjectNotification($data));
             }
         }
 

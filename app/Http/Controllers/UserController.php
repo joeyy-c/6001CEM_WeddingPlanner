@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use App\Models\ProjectService;
+use App\Models\Project;
 
 class UserController extends Controller
 {
@@ -71,11 +73,45 @@ class UserController extends Controller
         }
     }
 
-    public function updateVendor(User $vendor) {
+    public function editVendor(User $vendor) {
         $vendor->user_info = json_decode($vendor->user_info);
         
         // return $vendor;
 
         return view('admin.vendors.edit', ['vendor' => $vendor]);
+    }
+
+    public function updateVendor(User $vendor, Request $request) {
+        $updateVendor = $vendor->update([
+            'user_info' => json_encode($request->input('user_info'))
+        ]);
+
+        if (!$request->input('user_info')['enable']) {
+            // cancel all project by this vendor
+            ProjectService::whereHas('service', function ($query) use ($vendor) {
+                $query->where('vendor_id', $vendor->id);
+            })->update([
+                'status' => 'Cancelled',
+            ]);
+        }
+
+        if ($updateVendor) {
+            return redirect()->route('vendors.index')->with('success', 'Vendor #' . $vendor->id . ' has been successfully ' . ($request->input('user_info')['enable'] ? 'enabled.' : 'disabled.'));
+        } else {
+            return redirect()->route('vendors.index')->with('error', 'Failed to update vendor #' . $vendor->id . '.');
+        }
+    }
+
+    public function destroy(User $user) {
+        $project = Project::where('cust_id', $user->id)->first();
+
+        if ($project) {
+            $project->projectServices()->delete(); // Delete project_services of this project
+            $project->delete();
+        }
+
+        $user->delete();
+
+        return redirect()->route('users.index')->with('success', 'User has been successfully deleted.');
     }
 }

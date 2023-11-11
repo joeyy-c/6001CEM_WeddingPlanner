@@ -30,6 +30,7 @@
             <thead>
               <tr>
                 <th>ID</th>
+                <th>Status</th>
                 <th>Category</th>
                 <th>Name</th>
                 <th>Phone</th>
@@ -44,6 +45,11 @@
               @foreach ($vendors as $vendor)
               <tr>
                 <td><a href="{{ route('vendors.edit', ['vendor' => $vendor]) }}">{{ $vendor->id }}</a></td>
+                <td>
+                  <span class="badge {{ ($vendor->user_info->enable == 1) ? 'bg-success' : 'bg-secondary' }} text-light">
+                    {{ ($vendor->user_info->enable == 1) ? 'Enabled' : 'Disabled' }}
+                  </span>
+                </td>
                 <td><span class="badge bg-secondary text-light">{{ ucwords(str_replace('_', ' ', $vendor->user_info->business_category)) }}</span></td>
                 <td>{{ $vendor->name }}</td>
                 <td>{{ $vendor->user_info->phone }}</td>

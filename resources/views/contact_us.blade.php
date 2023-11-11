@@ -10,6 +10,13 @@
           <div class="inset-xl-left-35 section-sm">
             <h3 class="wow fadeInRight">Get in touch with<br>our team</h3>
             <h6 class="title-style-1 wow fadeInRight" data-wow-delay=".05s">Let's work together!</h6>
+            
+            @if(session('message'))
+            <div class="alert alert-success col-11 mt-5">
+                  {{ session('message') }}
+              </div>
+            @endif
+
             <div class="form-style-1 context-dark wow blurIn">
               <!-- RD Mailform-->
               <form method="post" action="{{ route('contact-us.send-email') }}">
@@ -28,7 +35,7 @@
                 </div>
                 <div class="form-wrap">
                   <label class="form-label" for="contact-message-2">Message</label>
-                  <textarea class="form-input" id="contact-message-2" name="message" required></textarea>
+                  <textarea class="form-input" id="contact-message-2" name="messages" required></textarea>
                 </div>
                 <div class="form-button">
                   <button class="button button-jerry button-primary" type="submit">Submit<span class="button-jerry-line"></span><span class="button-jerry-line"></span><span class="button-jerry-line"></span><span class="button-jerry-line"></span>

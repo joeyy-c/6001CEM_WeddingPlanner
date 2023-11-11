@@ -21,8 +21,13 @@ class CheckVendorRole
             $user = Auth::user();
 
             if ($user->role->role_name == 'Vendor') {
+                if (!json_decode($user->user_info)->enable) {
+                    Auth::logout();
+                    return back()->with('error', 'Your account has been disabled. Please contact the administrator.');
+                }
                 return $next($request);
             }
+            
         }
 
         return back();
