@@ -131,6 +131,7 @@
                         </div>
 
                         <input class="form-input" id="website_link" type="hidden" name="user_info[website_link]" value="{{ old('user_info.website_link') }}">
+                        <input class="form-input" id="enable" type="hidden" name="user_info[enable]" value="1">
 
                         <!-- Submit Button -->
                         <div class="d-flex align-items-center justify-content-end mt-5">

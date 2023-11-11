@@ -9,7 +9,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class ContactUsMail extends Mailable
+class NewProjectNotification extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -27,8 +27,8 @@ class ContactUsMail extends Mailable
 
     public function build()
     {
-        return $this->view('emails.contact_us')
-                    ->subject('[De Lavish] from ' . $this->data['name'] . ': ' . $this->data['subject'])
+        return $this->view('emails.new_project_notification')
+                    ->subject('[De Lavish] New project waiting for your confirmation: ' . $this->data['project_name'])
                     ->with($this->data);
     }
 }
